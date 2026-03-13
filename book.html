@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Europhia Prime - Novel Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --book-width: 800px;
+            --book-height: 550px;
+            --page-width: 400px;
+            --page-height: 550px;
+            --primary-brown: #3e2723;
+            --dark-brown: #281815;
+            --gold-accent: #d4af37;
+            --paper-color: #f5f5dc;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Crimson Text', serif;
+            overflow: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 150px 150px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 300px 100px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 400px 400px;
+            opacity: 0.3;
+            animation: twinkle 8s infinite linear;
+        }
+
+        @keyframes twinkle {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-400px); }
+        }
+
+        /* Book Container */
+        .book-container {
+            perspective: 2000px;
+            width: var(--book-width);
+            height: var(--book-height);
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .book {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        /* Pages */
+        .page {
+            position: absolute;
+            width: var(--page-width);
+            height: var(--page-height);
+            top: 0;
+            right: 0;
+            transform-origin: left;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .page-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: var(--paper-color);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+            padding: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .page-front {
+            z-index: 2;
+            border-radius: 0 5px 5px 0;
+            background: linear-gradient(to right, #e8e8d0 0%, var(--paper-color) 5%);
+        }
+
+        .page-back {
+            transform: rotateY(180deg);
+            z-index: 1;
+            border-radius: 5px 0 0 5px;
+            background: linear-gradient(to left, #e8e8d0 0%, var(--paper-color) 5%);
+        }
+
+        /* Flipped state */
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Content Styling */
+        .content {
+            color: #2c1810;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+
+        .content p {
+            margin-bottom: 1.5em;
+        }
+
+        .chapter-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--primary-brown);
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .chapter-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            text-align: center;
+            color: #8d6e63;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            border-bottom: 1px solid var(--gold-accent);
+            padding-bottom: 10px;
+        }
+
+        /* Cover */
+        .cover {
+            background: linear-gradient(45deg, #4a2c2a 0%, #2c1810 100%) !important;
+            border: 4px solid var(--gold-accent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--gold-accent) !important;
+            text-align: center;
+        }
+
+        .cover h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .cover-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid var(--gold-accent);
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(212,175,55,0.4);
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: #8d6e63;
+        }
+        .page-front .page-number { right: 20px; }
+        .page-back .page-number { left: 20px; }
+
+        /* Custom Scrollbar */
+        .page-side::-webkit-scrollbar { width: 5px; }
+        .page-side::-webkit-scrollbar-track { background: transparent; }
+        .page-side::-webkit-scrollbar-thumb { background: rgba(62, 39, 35, 0.2); border-radius: 10px; }
+
+        .instructions {
+            position: fixed;
+            top: 20px;
+            color: white;
+            font-family: 'Cinzel', serif;
+            opacity: 0.7;
+            z-index: 100;
+        }
+
+        /* ===== MOBILE RESPONSIVE REFINED ===== */
+        @media (max-width: 850px) {
+            :root {
+                --book-width: 92vw;
+                --book-height: 85vh;
+                --page-width: 92vw;
+                --page-height: 85vh;
+            }
+
+            body {
+                overflow: hidden;
+                touch-action: none;
+                flex-direction: column;
+                background: #0a0a1a;
+            }
+
+            .book-container {
+                width: var(--book-width);
+                height: var(--book-height);
+                perspective: 1500px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transform: translateY(-20px);
+            }
+
+            .book {
+                width: 100%;
+                height: 100%;
+                transform-style: preserve-3d;
+            }
+
+            .page {
+                width: 100%;
+                height: 100%;
+                left: 0;
+                top: 0;
+                transform-origin: center !important; 
+                transition: none !important; /* No animation on mobile */
+            }
+
+            .mobile-hide {
+                display: none !important; /* Use display none for instant switch */
+            }
+
+            .page-side {
+                padding: 30px 20px;
+                width: 100%;
+                height: 100%;
+                box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            }
+
+            .content {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+
+            .chapter-title { font-size: 1.25rem; }
+            .chapter-subtitle { font-size: 0.85rem; margin-bottom: 20px; }
+            .instructions { font-size: 0.7rem; top: 15px; }
+        }
+
+        /* ===== CONTROLS STYLING ===== */
+        .book-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn-novel {
+            background: rgba(45, 25, 20, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--gold-accent);
+            color: var(--gold-accent);
+            padding: 12px 25px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .btn-novel:hover {
+            background: var(--gold-accent);
+            color: #281815;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .bookmark-status {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            font-family: 'Cinzel', serif;
+            color: var(--gold-accent);
+            font-size: 0.75rem;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--gold-accent);
+            display: none;
+            z-index: 1001;
+            backdrop-filter: blur(5px);
+        }
+
+        .magical-glow {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1000;
+            border-radius: 50%;
+            filter: blur(20px);
+            display: block;
+        }
+
+        /* Ambient Stars Overlay */
+        .paper-texture {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+
+
+
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="instructions">KLIK HALAMAN UNTUK MEMBALIK</div>
+
+    <div class="book-container">
+        <div class="book" id="book">
+            
+            <!-- Page 1: Cover -->
+            <div class="page" style="z-index: 18;">
+                <div class="page-side page-front cover">
+                    <img src="arthur.jpeg" class="cover-img" alt="Arthur">
+                    <h1>EUROPHIA:<br>Penebusan Sang Arthur</h1>
+                    <p style="font-style: italic;">"Jika ini benar-benar kesempatan kedua... Tuhan... aku menyesal."</p>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <h2 class="chapter-title">DAFTAR ISI</h2>
+                        <ul style="list-style: none; padding: 0; text-align: center; margin-top: 50px;">
+                            <li style="margin-bottom: 20px;">BAB 1: Gelapnya Malam Menutupi Sinar Mentari</li>
+                            <li>BAB 2: Sang Senja Berubah Menjadi Bulan Penuh Darah</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 1-2 Text -->
+            <div class="page" style="z-index: 17;">
+                <div class="page-side page-front">
+                    <h2 class="chapter-title">BAB 1</h2>
+                    <p class="chapter-subtitle">Gelapnya Malam Menutupi Sinar Mentari</p>
+                    <div class="content">
+                        <p>Di sebuah negara bernama d’Chaten, hiduplah dua bersaudara yang sangat berbeda sifatnya. Kakaknya bernama Arthur Bolthen, sedangkan sang adik bernama Thesia Ruisan.</p>
+                        <p>Ketika Arthur memasuki masa SMA, kehidupannya mulai berubah ke arah yang buruk. Ia sering membolos sekolah, menghabiskan waktu bersama teman-temannya, dan mulai mengenal minuman keras. Hari demi hari, kebiasaan buruk itu semakin melekat padanya.</p>
+                        <p>Berbanding terbalik dengan Arthur, Thesia tumbuh menjadi pribadi yang rajin dan baik hati. Ia dikenal sebagai murid yang cerdas dan berhasil diterima di universitas terbaik di daerahnya.</p>
+                    </div>
+                    <span class="page-number">1</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Namun bagi Arthur, semua itu terasa membosankan.</p>
+                        <p>Setelah lulus sekolah, ia sempat melanjutkan kuliah. Sayangnya, ia memutuskan keluar dari kampus dengan alasan merasa tidak nyaman. Sejak saat itu, Arthur memilih hidup terpisah dari orang tuanya dan menetap di sebuah kos kecil di kota Djagahrta.</p>
+                        <p>Setiap bulan, orang tuanya tetap mengirimkan uang sebesar empat juta rupiah untuknya. Sayangnya, uang itu tidak pernah digunakan untuk hal yang berguna. Arthur menghabiskannya untuk berpesta, minum alkohol, dan mengunjungi klub malam.</p>
+                    </div>
+                    <span class="page-number">2</span>
+                </div>
+            </div>
+
+            <!-- Page 3-4 Text -->
+            <div class="page" style="z-index: 16;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Hingga suatu hari, kabar buruk datang.</p>
+                        <p>Kedua orang tuanya meninggal dunia. Alih-alih bersedih, Arthur justru lebih memikirkan warisan yang mereka tinggalkan. Mengetahui hal itu, Thesia mencoba menemui kakaknya untuk berbicara dari hati ke hati.</p>
+                        <p>“Arthur… kita harus membicarakan soal warisan itu,” ucap Thesia dengan lembut.</p>
+                        <p>Namun Arthur yang sudah dipenuhi keserakahan tidak mau mendengar sepatah kata pun. Pertengkaran pun terjadi. Dalam luapan emosi, Arthur memukul adiknya hingga pingsan.</p>
+                    </div>
+                    <span class="page-number">3</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Pada akhirnya, Arthur berhasil mengambil hampir seluruh warisan keluarga.</p>
+                        <p>Hari demi hari berlalu. Arthur hidup dalam kemewahan yang berasal dari kerja keras orang tuanya, sementara Thesia masih mencoba membujuk kakaknya untuk berubah. Suatu malam, Thesia kembali datang menemuinya.</p>
+                        <p>“Arthur… kau hanya menggunakan harta hasil jerih payah orang tua kita untuk sesuatu yang tidak jelas. Ingatlah… Tuhan akan membalas semua perbuatan manusia dengan adil.”</p>
+                    </div>
+                    <span class="page-number">4</span>
+                </div>
+            </div>
+
+            <!-- Page 5-6 Text -->
+            <div class="page" style="z-index: 15;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Arthur yang sedang mabuk tersulut emosi. “Heh! Jangan sok suci ngatur hidup gue!” bentaknya.</p>
+                        <p>Pertengkaran itu kembali berubah menjadi kekerasan. Dalam keadaan emosi yang tidak terkendali, Arthur memukul adiknya dengan keras. Tubuh Thesia jatuh ke lantai dan tidak bergerak lagi.</p>
+                        <p>Saat itulah Arthur menyadari sesuatu yang mengerikan. Adiknya telah meninggal.</p>
+                        <p>“A-aku… apa yang sudah kulakukan…?” gumamnya dengan suara gemetar.</p>
+                    </div>
+                    <span class="page-number">5</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Penyesalan datang terlambat.</p>
+                        <p>Arthur menangis berhari-hari. Dengan tangan gemetar, ia menguburkan jasad adiknya di taman belakang pada malam hari agar tidak ada orang yang mengetahui kejadian itu.</p>
+                        <p>Namun rasa bersalah terus menghantuinya. Sebulan setelah kejadian itu, Arthur tidak bisa lagi menahan tekanan dalam pikirannya. Ia merasa hidupnya sudah hancur.</p>
+                    </div>
+                    <span class="page-number">6</span>
+                </div>
+            </div>
+
+            <!-- Page 7-8 Text -->
+            <div class="page" style="z-index: 14;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Pada malam tanggal 17 Februari 2035, Arthur berdiri di tepi sebuah gedung pencakar langit. Angin malam berhembus kencang. Air mata mengalir di pipinya.</p>
+                        <p>“Maafkan aku… Ayah… Ibu… Thesia…”</p>
+                        <p>Namun tepat sebelum ia melangkah, kilatan cahaya yang sangat terang muncul di langit. Arthur terkejut. Tubuhnya kehilangan keseimbangan dan ia pun jatuh dari gedung itu.</p>
+                    </div>
+                    <span class="page-number">7</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Saat tubuhnya melayang di udara, Arthur menatap langit malam yang gelap. Di tengah kegelapan itu, ia masih melihat bintang-bintang yang bersinar. Tubuhnya menghantam tanah.</p>
+                        <p>Hujan mulai turun deras membasahi tubuhnya. Tanggal 17 Februari 2035, Arthur Bolthen menghembuskan napas terakhirnya.</p>
+                        <p>Namun ketika ia membuka matanya kembali, ia tidak berada di dunia yang sama. Arthur terbangun di sebuah tempat kosong yang gelap—sebuah kehampaan yang terasa aneh.</p>
+                    </div>
+                    <span class="page-number">8</span>
+                </div>
+            </div>
+
+            <!-- Page 9-10 Text -->
+            <div class="page" style="z-index: 13;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Tidak lama kemudian, dunia di sekelilingnya berubah. Hutan luas terbentang di hadapannya. Pohon-pohon tinggi menjulang dan hewan-hewan aneh berkeliaran. Arthur mengerutkan kening. “Apa… ini?”</p>
+                        <p>Ia sempat mengira dirinya berhalusinasi. Namun pikiran itu langsung terpatahkan ketika seekor serangga kecil menggigit tangannya. Rasa sakitnya nyata. Ini bukan mimpi.</p>
+                    </div>
+                    <span class="page-number">9</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Sehari kemudian, Arthur berjalan menyusuri hutan tanpa tujuan hingga ia melihat sebuah bendera di kejauhan. Saat mendekat, ia menemukan sebuah pemukiman.</p>
+                        <p>Penduduk di sana memiliki telinga panjang dan tubuh ramping. Arthur langsung menyadarinya. “Mereka… elf?”</p>
+                        <p>Penduduk desa menyambut Arthur dengan ramah dan membawanya bertemu kepala suku. Dari merekalah Arthur mengetahui satu hal yang mengejutkan. Ia berada di dunia bernama Europhia.</p>
+                    </div>
+                    <span class="page-number">10</span>
+                </div>
+            </div>
+
+            <!-- Page 11-12 Text -->
+            <div class="page" style="z-index: 12;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Nama itu tidak asing bagi Arthur. Justru sebaliknya. Nama itu pernah menggemparkan seluruh media sosial di d’Chaten.</p>
+                        <p>Beberapa tahun sebelumnya, negara d’Chaten sempat dihebohkan oleh sebuah penemuan ilmiah yang dijuluki: “Dunia Baru – Europhia Prime.”</p>
+                        <p>Pada tahun 2019, para ilmuwan menemukan sesuatu yang sangat aneh di dalam sebuah komet yang jatuh ke Bumi. Di dalam komet itu terdapat sebuah bakteri yang sangat berbeda dari semua organisme yang pernah ditemukan di Bumi.</p>
+                    </div>
+                    <span class="page-number">11</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Setelah diteliti lebih lanjut, para ilmuwan memastikan satu hal yang mengejutkan. Bakteri itu bukan berasal dari Bumi.</p>
+                        <p>Berbagai perhitungan ilmiah dilakukan selama bertahun-tahun. Namun hingga mencapai batas kemampuan ilmu pengetahuan manusia, tidak ada yang mampu menjelaskan dari mana bakteri tersebut berasal.</p>
+                        <p>Banyak ilmuwan akhirnya menyerah dan menghentikan penelitian mereka. Namun ada satu orang yang tidak menyerah. Seorang ilmuwan bernama Erick Bolthen.</p>
+                    </div>
+                    <span class="page-number">12</span>
+                </div>
+            </div>
+
+            <!-- Page 13-14 Text -->
+            <div class="page" style="z-index: 11;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Ia terus meneliti bakteri tersebut selama berbulan-bulan, menghitung berbagai kemungkinan dengan sangat teliti. Dua tahun kemudian, ia akhirnya menemukan sesuatu yang luar biasa.</p>
+                        <p>Menurut perhitungannya, bakteri itu berasal dari tempat yang berjarak jutaan tahun cahaya dari Bumi. Setelah melakukan berbagai simulasi dan analisis, ia menarik sebuah kesimpulan yang sangat kontroversial.</p>
+                        <p>Bakteri itu terbawa oleh black hole atau lubang cacing, fenomena kosmik yang memungkinkan benda berpindah tempat dengan kecepatan cahaya.</p>
+                    </div>
+                    <span class="page-number">13</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Jurnal penelitian itu dipublikasikan pada 17 November 2022. Namun bukannya mendapat dukungan, banyak ilmuwan lain justru menertawakannya. “Mendekati kecepatan cahaya? Mustahil,” kata mereka.</p>
+                        <p>Erick hanya menjawab dengan tenang. “Benar. Benda bermassa tidak mungkin menyamai kecepatan cahaya. Namun bagaimana jika benda itu mampu memanipulasi massanya sendiri?”</p>
+                        <p>Para ilmuwan lain terdiam. Erick kembali menjelaskan bahwa bakteri ini memiliki kemampuan memanipulasi massanya hingga mendekati nol.</p>
+                    </div>
+                    <span class="page-number">14</span>
+                </div>
+            </div>
+
+            <!-- Page 15-16 Text -->
+            <div class="page" style="z-index: 10;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Penemuan itu menjadi awal dari era baru di d’Chaten yang dikenal sebagai Golden Era. Dan nama ilmuwan yang menemukan teori tersebut adalah… Erick Bolthen.</p>
+                        <p>Kembali ke Arthur. Ia masih berdiri di tengah pemukiman elf dengan wajah penuh keterkejutan. “Jadi… ini benar-benar dunia itu…” gumamnya.</p>
+                        <p>Jika dunia ini benar-benar Europhia Prime, maka satu hal menjadi jelas. Segala sesuatu yang mustahil di Bumi… mungkin saja terjadi di sini.</p>
+                    </div>
+                    <span class="page-number">15</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Arthur melihat sesuatu yang membuatnya membeku. Beberapa elf di desa itu terbang di udara. Tanpa sayap. Tanpa alat bantu. Mereka hanya melayang ringan seperti daun yang tertiup angin.</p>
+                        <p>Arthur tidak bisa menahan rasa penasarannya. Ia menoleh pada kepala suku. “Bagaimana mereka bisa melakukan itu?”</p>
+                        <p>Kepala suku tersenyum tipis. “Tidak heran dirimu terkejut. Di dunia ini, semua benda memiliki kemampuan memanipulasi massa mereka. Kami menyebutnya Mass Zone.”</p>
+                    </div>
+                    <span class="page-number">16</span>
+                </div>
+            </div>
+
+            <!-- Page 17-18 Text -->
+            <div class="page" style="z-index: 9;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>“Setiap makhluk memiliki zona tempat ia bisa mempengaruhi massa benda di sekitarnya. Jika seseorang mampu memahami konsep dunia ini, ia dapat mengontrol apa pun yang berada di zonanya.”</p>
+                        <p>Arthur terdiam. Penjelasan itu terasa sangat familiar baginya. Persis seperti riset yang pernah dilakukan ayahnya. Perlahan, air mata mulai mengalir di wajah Arthur.</p>
+                        <p>Ia teringat semua kesalahan yang pernah dilakukan. Ia mengabaikan ayahnya. Ia menghamburkan warisan keluarganya. Dan yang paling menyakitkan… Ia telah membunuh adiknya sendiri.</p>
+                    </div>
+                    <span class="page-number">17</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Arthur menundukkan kepalanya sambil menangis. “Jika ini benar-benar kesempatan kedua…” bisiknya pelan.</p>
+                        <p>Ia menatap langit dunia asing itu. “Tuhan… aku menyesal. Aku ingin memperbaiki semuanya… di sini.”</p>
+                        <hr style="margin: 40px 0; border: none; border-top: 2px double var(--gold-accent);">
+                        <h2 class="chapter-title">BAB 2</h2>
+                        <p class="chapter-subtitle">Sang Senja Berubah Menjadi Bulan Penuh Darah</p>
+                    </div>
+                    <span class="page-number">18</span>
+                </div>
+            </div>
+
+            <!-- Page 19-20 Text -->
+            <div class="page" style="z-index: 8;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Beberapa bulan telah berlalu sejak Arthur tinggal bersama klan elf. Selama waktu itu, ia belajar tentang konsep Mass Zone.</p>
+                        <p>Arthur juga membantu para elf membangun berbagai hal, termasuk jembatan besar yang menghubungkan dua gunung agar jalur perdagangan lebih mudah.</p>
+                        <p>Namun Arthur tidak pernah melupakan tujuan utamanya. Ia ingin kembali ke Bumi.</p>
+                    </div>
+                    <span class="page-number">19</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Suatu hari, setelah berpamitan dengan kepala suku elf, Arthur memutuskan untuk kembali berkelana. “Aku berhutang banyak pada kalian,” ucapnya.</p>
+                        <p>Kepala suku elf tersenyum. “Pergilah. Dunia ini luas. Masih banyak yang belum kau lihat.”</p>
+                        <p>Arthur pun meninggalkan desa itu. Namun di hari yang sama, konflik baru muncul di wilayah hutan elf. Konflik itu bermula dari klan Minotaur.</p>
+                    </div>
+                    <span class="page-number">20</span>
+                </div>
+            </div>
+
+            <!-- Page 21-22 Text -->
+            <div class="page" style="z-index: 7;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Makhluk bertubuh besar dengan kepala seperti banteng itu sering melewati wilayah hutan elf dan merusak tanaman mereka.</p>
+                        <p>Putra raja elf yang berusia enam belas tahun mencoba menghentikan mereka. Namun keputusan itu membawa masalah. Seorang minotaur muncul di hutan dan menyerangnya.</p>
+                        <p>Tubuh makhluk itu besar dan berotot, dengan kuku tajam dan napas berat seperti binatang buas.</p>
+                    </div>
+                    <span class="page-number">21</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Putra raja elf mulai terpojok. Di tempat lain, Arthur yang sedang melewati hutan mendengar suara pertempuran. Awalnya ia tidak ingin ikut campur.</p>
+                        <p>Namun ketika ia melihat seorang elf muda hampir terbunuh, ia teringat pada adiknya. Arthur menggenggam tongkat kayu yang selalu ia bawa.</p>
+                        <p>“Aku tidak akan membiarkan ini terjadi lagi…” Ia melompat ke atas pohon dan mengaktifkan Mass Zone miliknya.</p>
+                    </div>
+                    <span class="page-number">22</span>
+                </div>
+            </div>
+
+            <!-- Page 23-24 Text -->
+            <div class="page" style="z-index: 6;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Sebuah bola transparan muncul di sekeliling tubuhnya. Arthur mulai menyerang dari atas pohon. Ia memanipulasi massa pohon dan membuat batang besar menghantam minotaur.</p>
+                        <p>Namun tubuh minotaur itu terlalu kuat. Serangan itu hanya membuatnya mundur sedikit. Arthur mulai berkeringat. “Gawat… kekuatannya jauh di atasku…”</p>
+                        <p>Minotaur itu menatap Arthur dengan marah. Kini perhatian makhluk itu sepenuhnya tertuju pada Arthur.</p>
+                    </div>
+                    <span class="page-number">23</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Pertarungan yang sebenarnya… baru saja dimulai. Arthur perlahan kembali menurunkan tubuhnya ke tanah setelah serangan terakhirnya.</p>
+                        <p>Namun tiba-tiba sesuatu terasa aneh. Tenaganya mendadak hilang. Kakinya gemetar. Tubuhnya terasa sangat lemas.</p>
+                        <p>“Ada apa dengan tubuhku…?” gumam Arthur pelan sambil memegang perutnya. “Kenapa tiba-tiba begini? Apa ini efek samping menggunakan Mass Zone?”</p>
+                    </div>
+                    <span class="page-number">24</span>
+                </div>
+            </div>
+
+            <!-- Page 25-26 Text -->
+            <div class="page" style="z-index: 5;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Merasa dalam bahaya, Arthur mundur beberapa langkah. Ia menancapkan tongkatnya ke tanah. DUGG. Tanah di sekitarnya bergetar halus.</p>
+                        <p>Getaran itu menyebar perlahan seperti riak di permukaan air. Arthur menutup matanya sejenak. Ia sedang mempersiapkan sesuatu.</p>
+                        <p>Kemudian ia mengangkat tongkatnya dan berteriak, “Dengan ini… ku ciptakan pelindung dari bilah tanah!” Getaran di tanah tiba-tiba berkumpul.</p>
+                    </div>
+                    <span class="page-number">25</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Tanah di depan Arthur terangkat. Sebuah perisai raksasa terbentuk dari tanah yang memadat dengan duri tajam di sekelilingnya.</p>
+                        <p>Arthur lalu melanjutkan, “Dan angin… bergeraklah mengikuti apa yang mereka hembuskan!” Angin di sekitar hutan mulai berputar memperkuat perisai.</p>
+                        <p>Perisai tersebut sangat keras dan padat karena Arthur menerapkan prinsip getaran frekuensi rapat melalui tongkatnya.</p>
+                    </div>
+                    <span class="page-number">26</span>
+                </div>
+            </div>
+
+            <!-- Page 27-28 Text -->
+            <div class="page" style="z-index: 4;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Minotaur yang berdiri di seberang mengerutkan wajahnya kebingungan. “Bagaimana mungkin…? Kenapa manusia ini bisa menciptakan materi yang tidak ada di dunia ini?”</p>
+                        <p>Rasa penasaran mengalahkan amarahnya. Minotaur itu memukul perisai tersebut dengan kedua tangannya. BOOM! Namun perisai itu tidak bergeming.</p>
+                        <p>Minotaur itu menatap Arthur. “Hei, kau! Bagaimana kau bisa menciptakan benda seperti itu? Jangan bilang… kau ini sebuah anomali?”</p>
+                    </div>
+                    <span class="page-number">27</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Arthur yang masih menggenggam tongkatnya mencoba menahan lemas. Napasnya berat. Namun ia tetap menatap minotaur itu dengan tenang.</p>
+                        <p>“Kau ingin tahu kenapa aku bisa melakukan ini? Kalau begitu… sebelum aku menjawabnya, kau harus memberitahuku sesuatu.”</p>
+                        <p>“Apa sebenarnya yang terjadi di dunia ini?” kata Arthur. Minotaur itu terdiam sejenak. Wajahnya tampak kesal namun rasa ingin tahunya besar.</p>
+                    </div>
+                    <span class="page-number">28</span>
+                </div>
+            </div>
+
+            <!-- Page 29-30 Text -->
+            <div class="page" style="z-index: 3;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Akhirnya ia menghela napas berat. “Baiklah. Akan kuceritakan. Di dunia ini terdapat berbagai ras dan golongan.”</p>
+                        <p>Ia menunjuk dirinya sendiri. “Aku adalah Minotaur. Ras unggulan dengan kekuatan fisik luar biasa.”</p>
+                        <p>“Ada juga Elf. Mereka terkenal karena kecerdasan dan kekuatan magis. Lalu ada manusia. Ras paling licik. Mereka pandai memonopoli perdagangan.”</p>
+                    </div>
+                    <span class="page-number">29</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>“Dwarf, para penambang ulung. Mereka menggali material langka dan membuat armor untuk hampir semua ras.”</p>
+                        <p>“Dan terakhir… Sanctur. Makhluk setengah manusia setengah kuda. Sangat pandai bersembunyi dan ahli memanah.”</p>
+                        <p>Minotaur itu menatap Arthur tajam. “Sekarang jawab pertanyaanku. Kenapa kau ingin tahu hal yang bahkan anak kecil di dunia ini sudah tahu?”</p>
+                        <p style="text-align: center; margin-top: 50px; font-weight: bold; color: #8b0000;">BERSAMBUNG...</p>
+                    </div>
+                    <span class="page-number">30</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="book-controls">
+        <button class="btn-novel" onclick="prevStep()" id="btn-prev">
+            <span>⬅</span> SEB
+        </button>
+        <button class="btn-novel" onclick="tutupBuku()">
+            <span>✖</span> TUTUP
+        </button>
+       
+        <button class="btn-novel" onclick="nextStep()" id="btn-next">
+            SEL <span>➡</span>
+        </button>
+    </div>
+
+    <div class="bookmark-status" id="bookmark-alert">Bookmark Tersimpan!</div>
+
+    <div class="magical-glow" id="glow"></div>
+
+    <script>
+        const pages = document.querySelectorAll('.page');
+        const book = document.getElementById('book');
+        const glow = document.getElementById('glow');
+        const alertBox = document.getElementById('bookmark-alert');
+        
+        let currentStep = 0; // Steps are sides (0 = Page 1 Front, 1 = Page 1 Back, etc.)
+        const totalSteps = pages.length * 2;
+
+        pages.forEach((page, index) => {
+            page.style.zIndex = pages.length - index;
+            page.addEventListener('click', (e) => {
+                if (window.innerWidth > 850) {
+                    desktopFlip(page, index);
+                } else {
+                    nextStep();
+                }
+            });
+        });
+
+        function desktopFlip(page, index) {
+            if (page.classList.contains('flipped')) {
+                page.classList.remove('flipped');
+                setTimeout(() => {
+                    page.style.zIndex = pages.length - index;
+                }, 500);
+            } else {
+                page.classList.add('flipped');
+                setTimeout(() => {
+                    page.style.zIndex = index + 1;
+                }, 500);
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                updateMobileView();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateMobileView();
+            }
+        }
+
+        function updateMobileView() {
+            const isMobile = window.innerWidth <= 850;
+            if (!isMobile) return;
+
+            const activeSheetIndex = Math.floor(currentStep / 2);
+            const isBackSide = currentStep % 2 === 1;
+
+            pages.forEach((page, index) => {
+                page.classList.remove('mobile-hide');
+                if (index < activeSheetIndex) {
+                    page.classList.add('mobile-hide');
+                    page.classList.add('flipped'); // Ensure z-index follows
+                } else if (index === activeSheetIndex) {
+                    page.style.zIndex = 100;
+                    if (isBackSide) page.classList.add('flipped');
+                    else page.classList.remove('flipped');
+                } else {
+                    page.classList.remove('flipped');
+                    page.style.zIndex = pages.length - index;
+                }
+            });
+        }
+
+        function tutupBuku() {
+            if (window.innerWidth <= 850) {
+                currentStep = 0;
+                updateMobileView();
+            } else {
+                [...pages].reverse().forEach((page, index) => {
+                    setTimeout(() => {
+                        if (page.classList.contains('flipped')) {
+                            page.classList.remove('flipped');
+                            const originalIndex = pages.length - 1 - index;
+                            setTimeout(() => page.style.zIndex = pages.length - originalIndex, 500);
+                        }
+                    }, index * 100);
+                });
+            }
+        }
+
+        function saveBookmark() {
+            const progress = (window.innerWidth <= 850) ? currentStep : getDesktopProgress();
+            localStorage.setItem('europhia_bookmark_v3', progress);
+            alertBox.style.display = 'block';
+            setTimeout(() => alertBox.style.display = 'none', 2000);
+        }
+
+        function getDesktopProgress() {
+            let lastFlipped = -1;
+            pages.forEach((page, index) => { if (page.classList.contains('flipped')) lastFlipped = index; });
+            return (lastFlipped + 1) * 2;
+        }
+
+        function loadBookmark() {
+            const saved = localStorage.getItem('europhia_bookmark_v3');
+            if (saved !== null) {
+                currentStep = parseInt(saved);
+                if (window.innerWidth > 850) {
+                    const sheetsToFlip = Math.floor(currentStep / 2);
+                    pages.forEach((page, i) => {
+                        if (i < sheetsToFlip) {
+                            page.classList.add('flipped');
+                            page.style.zIndex = i + 1;
+                        }
+                    });
+                } else {
+                    updateMobileView();
+                }
+            }
+        }
+
+        window.onload = loadBookmark;
+
+        document.addEventListener('mousemove', (e) => handleInteraction(e.pageX, e.pageY));
+        document.addEventListener('touchmove', (e) => {
+            handleInteraction(e.touches[0].pageX, e.touches[0].pageY);
+        }, { passive: true });
+
+        function handleInteraction(x, y) {
+            if (glow) {
+                glow.style.left = `${x - 75}px`;
+                glow.style.top = `${y - 75}px`;
+            }
+            if (window.innerWidth > 850) {
+                const firstPage = pages[0];
+                if (!firstPage.classList.contains('flipped')) {
+                    const xAxis = (window.innerWidth / 2 - x) / 25;
+                    const yAxis = (window.innerHeight / 2 - y) / 25;
+                    book.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                } else {
+                    book.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                }
+            } else {
+                book.style.transform = `none`;
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 850) pages.forEach(p => p.classList.remove('mobile-hide'));
+            else updateMobileView();
+        });
+    </script>
+</body>
+</html>

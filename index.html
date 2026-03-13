@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Europhia Prime - Novel Interaktif</title>
+    <title>Europhia Prime - Sinopsis</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --book-width: 580px;
-            --book-height: 460px;
-            --page-width: 290px;
-            --page-height: 460px;
-            --primary-brown: #3e2723;
-            --dark-brown: #281815;
             --gold-accent: #d4af37;
             --paper-color: #f5f5dc;
+            --dark-bg: #0f0c29;
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             min-height: 100vh;
-            overflow-x: hidden;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            box-sizing: border-box;
             font-family: 'Crimson Text', serif;
+            color: #eee;
+            overflow-y: auto; /* Enable vertical scroll */
         }
 
-        /* Background Effects */
+        /* Ambient Stars Background */
         .stars {
             position: fixed;
             top: 0;
@@ -34,1314 +36,197 @@
             height: 100%;
             pointer-events: none;
             background-image: 
-                radial-gradient(2px 2px at 20px 30px, #eee, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0));
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 150px 150px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 300px 100px, #ddd, rgba(0,0,0,0));
             background-repeat: repeat;
-            background-size: 200px 200px;
-            opacity: 0.3;
-            animation: twinkle 10s infinite;
+            background-size: 400px 400px;
+            opacity: 0.4;
+            animation: twinkle 15s infinite linear;
+            z-index: 1;
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.5; }
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-400px); }
         }
 
-        /* Book Container */
-        .book-scene {
-            perspective: 2000px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 10px;
-        }
-
-        .book {
-            width: var(--book-width);
-            height: var(--book-height);
+        /* Glassmorphism Card */
+        .glass-container {
             position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.5s;
+            z-index: 10;
+            width: 95%;
+            max-width: 550px;
+            background: rgba(15, 12, 41, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 35px 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: fadeIn 1.2s ease-out;
+            text-align: center;
         }
 
-        .book:hover {
-            transform: rotateX(5deg) rotateY(-5deg);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Book Cover */
-        .book-cover {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #2c1810 0%, #4a2c2a 50%, #2c1810 100%);
-            border-radius: 5px 15px 15px 5px;
-            box-shadow: 
-                inset 0 0 50px rgba(0,0,0,0.5),
-                0 20px 50px rgba(0,0,0,0.5);
-            transform-origin: left;
-            transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
-            z-index: 100;
-            cursor: pointer;
-        }
-
-        .book-cover::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0,0,0,0.1) 2px,
-                    rgba(0,0,0,0.1) 4px
-                );
-            border-radius: 5px 15px 15px 5px;
-        }
-
-        .book-cover::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 40px;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                rgba(0,0,0,0.4) 0%, 
-                rgba(0,0,0,0.1) 20%, 
-                rgba(0,0,0,0) 100%);
-            border-radius: 5px 0 0 5px;
-        }
-
-        .cover-content {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            backface-visibility: hidden;
-            border: 3px double var(--gold-accent);
-            margin: 10px;
-            width: calc(100% - 20px);
-            height: calc(100% - 20px);
-            border-radius: 3px 12px 12px 3px;
-        }
-
-        .cover-title {
+        h1 {
             font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
+            font-size: 3rem;
             color: var(--gold-accent);
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            margin-bottom: 8px;
-            letter-spacing: 3px;
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
         }
 
-        .cover-subtitle {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #c9b037;
-            text-align: center;
-            margin-bottom: 15px;
+        .tagline {
             font-style: italic;
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            display: block;
         }
 
-        .cover-decoration {
-            width: 150px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
-            margin: 10px 0;
-        }
-
-        .cover-author-img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-        }
-
-        .cover-author {
-            font-family: 'Crimson Text', serif;
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-top: 15px;
-        }
-
-        .cover-illustration {
-            width: 100px;
-            height: 100px;
-            border: 2px solid var(--gold-accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0;
-            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
-        }
-
-        .moon-icon {
-            font-size: 2.5rem;
-            color: var(--gold-accent);
-        }
-
-        /* Book Back Cover */
-        .book-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #2c1810 0%, #4a2c2a 50%, #2c1810 100%);
-            border-radius: 15px 5px 5px 15px;
-            transform: translateZ(-40px) rotateY(180deg);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        /* Pages Container */
-        .pages {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform-style: preserve-3d;
-        }
-
-        /* Individual Page */
-        .page {
-            position: absolute;
-            width: var(--page-width);
-            height: var(--page-height);
-            top: 0;
-            right: 0;
-            transform-origin: left;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            cursor: pointer;
-        }
-
-        .page-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            background: var(--paper-color);
-            box-shadow: inset 0 0 30px rgba(0,0,0,0.1);
-            overflow: clip; /* clip visual saja, tidak memblokir scroll anak */
-        }
-
-        .page-front {
-            border-radius: 0 5px 5px 0;
-            background: 
-                linear-gradient(to right, rgba(0,0,0,0.1) 0%, transparent 5%),
-                var(--paper-color);
-        }
-
-        .page-back {
-            transform: rotateY(180deg);
-            border-radius: 5px 0 0 5px;
-            background: 
-                linear-gradient(to left, rgba(0,0,0,0.1) 0%, transparent 5%),
-                var(--paper-color);
-        }
-
-        /* Page Content Styling */
-        .page-content {
-            padding: 20px 25px;
-            height: 100%;
-            overflow-y: auto;
-            overflow-x: hidden;
-            box-sizing: border-box;
-            color: #2c1810;
-            /* Izinkan scroll vertikal dengan sentuhan di mobile */
-            touch-action: pan-y;
-            overscroll-behavior: contain;
-            scroll-behavior: smooth;
-        }
-
-        .page-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .page-content::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .page-content::-webkit-scrollbar-thumb {
-            background: rgba(44, 24, 16, 0.3);
-            border-radius: 3px;
-        }
-
-        .chapter-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: var(--primary-brown);
-            text-align: center;
-            margin-bottom: 6px;
-            border-bottom: 2px solid var(--gold-accent);
-            padding-bottom: 6px;
-        }
-
-        .chapter-subtitle {
-            font-family: 'Crimson Text', serif;
-            font-style: italic;
-            text-align: center;
-            color: #666;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
-
-        .story-text {
-            font-size: 0.88rem;
-            line-height: 1.65;
+        .synopsis-text {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
             text-align: justify;
-            text-indent: 1.5em;
+            color: rgba(255,255,255,0.9);
         }
 
-        .story-text p {
-            margin-bottom: 0.6em;
-        }
-
-        .page-number {
-            position: absolute;
-            bottom: 20px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .page-front .page-number {
-            right: 40px;
-        }
-
-        .page-back .page-number {
-            left: 40px;
-        }
-
-        /* Page Flipped State */
-        .page.flipped {
-            transform: rotateY(-180deg);
-        }
-
-        /* Cover Open State */
-        .book.open .book-cover {
-            transform: rotateY(-160deg);
-        }
-
-        /* Controls */
-        .controls {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 20px;
-            z-index: 1000;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 1px dashed rgba(212, 175, 55, 0.4);
         }
 
-        .control-btn {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            cursor: pointer;
+        .meta-item {
             font-family: 'Cinzel', serif;
             font-size: 0.85rem;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
+            color: #bbb;
         }
 
-        .control-btn:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        .control-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Instructions */
-        .instructions {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(10px);
+        .meta-item strong {
+            display: block;
             color: var(--gold-accent);
-            padding: 10px 20px;
-            border-radius: 20px;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        /* Premium Button */
+        .baca-btn {
+            display: inline-block;
+            background: var(--gold-accent);
+            color: #281815;
             font-family: 'Cinzel', serif;
-            font-size: 0.9rem;
-            z-index: 1000;
-            border: 1px solid rgba(212,175,55,0.3);
-            white-space: nowrap;
-            max-width: 90vw;
+            font-weight: 800;
+            font-size: 1.2rem;
+            padding: 15px 45px;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+            letter-spacing: 2px;
+            position: relative;
             overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        /* ===== MOBILE RESPONSIVE ===== */
-        /* Page indicator */
-        .page-indicator {
-            display: none;
-            position: fixed;
-            top: 14px;
-            right: 16px;
-            background: rgba(0,0,0,0.55);
-            backdrop-filter: blur(8px);
-            color: var(--gold-accent);
-            font-family: 'Cinzel', serif;
-            font-size: 0.75rem;
-            padding: 5px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(212,175,55,0.3);
-            z-index: 1001;
+        .baca-btn:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.5);
+            background: #e5c05b;
         }
 
-        /* Swipe hint */
-        .swipe-hint {
-            display: none;
-            position: fixed;
-            bottom: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(212,175,55,0.6);
-            font-family: 'Cinzel', serif;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            animation: fadeHint 3s ease-in-out forwards;
-            z-index: 1000;
-            white-space: nowrap;
-        }
-
-        @keyframes fadeHint {
-            0% { opacity: 0; transform: translateX(-50%) translateY(5px); }
-            20% { opacity: 1; transform: translateX(-50%) translateY(0); }
-            80% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        @media (max-width: 640px) {
-            /* Aktifkan mode single-page di mobile */
-            body.mobile-mode .book-scene {
-                perspective: none;
-                padding: 0;
-                align-items: stretch;
-                min-height: 100vh;
-            }
-
-            body.mobile-mode .book {
-                width: 100vw !important;
-                height: 100vh !important;
-                transform: none !important;
-                transition: none;
-                border-radius: 0;
-            }
-
-            body.mobile-mode .book:hover {
-                transform: none !important;
-            }
-
-            /* Cover tetap tampil full di mobile */
-            body.mobile-mode .book-cover {
-                width: 100% !important;
-                height: 100% !important;
-                border-radius: 0;
-                z-index: 100;
-            }
-
-            body.mobile-mode .book-back {
-                display: none;
-            }
-
-            /* Semua halaman full-screen */
-            body.mobile-mode .pages {
-                width: 100%;
-                height: 100%;
-            }
-
-            body.mobile-mode .page {
-                width: 100% !important;
-                height: 100% !important;
-                top: 0;
-                right: 0;
-                left: 0;
-                transform-origin: center;
-                cursor: default;
-                /* Di mobile tidak pakai flip 3D, pakai slide */
-                transition: opacity 0.35s ease, transform 0.35s ease;
-            }
-
-            /* Di mobile, sembunyikan animasi flip dan pakai visibilitas */
-            body.mobile-mode .page.flipped {
-                transform: none !important;
-                opacity: 0 !important;
-                pointer-events: none;
-                z-index: 0 !important;
-            }
-
-            /* Halaman aktif */
-            body.mobile-mode .page.mobile-active {
-                opacity: 1 !important;
-                pointer-events: auto;
-            }
-
-            /* Tampilkan hanya page-front (halaman ganjil), sembunyikan page-back */
-            body.mobile-mode .page-face {
-                width: 100%;
-                height: 100%;
-                border-radius: 0;
-            }
-
-            body.mobile-mode .page-back {
-                display: none;
-            }
-
-            body.mobile-mode .page-front {
-                border-radius: 0;
-                background: var(--paper-color);
-            }
-
-            /* Konten halaman */
-            body.mobile-mode .page-content {
-                padding: 60px 20px 100px 20px;
-                height: 100%;
-                overflow-y: auto;
-                box-sizing: border-box;
-            }
-
-            body.mobile-mode .chapter-title {
-                font-size: 1.2rem;
-            }
-
-            body.mobile-mode .chapter-subtitle {
-                font-size: 0.85rem;
-                margin-bottom: 10px;
-            }
-
-            body.mobile-mode .story-text {
-                font-size: 0.92rem;
-                line-height: 1.75;
-                text-indent: 1.5em;
-            }
-
-            body.mobile-mode .story-text p {
-                margin-bottom: 0.8em;
-            }
-
-            body.mobile-mode .page-number {
-                bottom: 80px;
-                right: 20px;
-                left: auto;
-            }
-
-            /* Cover content di mobile */
-            body.mobile-mode .cover-content {
-                padding: 30px 20px;
-            }
-
-            body.mobile-mode .cover-title {
-                font-size: 2rem;
-                letter-spacing: 4px;
-            }
-
-            body.mobile-mode .cover-subtitle {
-                font-size: 0.85rem;
-                margin-bottom: 10px;
-            }
-
-            body.mobile-mode .cover-illustration {
-                width: 120px;
-                height: 120px;
-                margin: 12px 0;
-            }
-
-            body.mobile-mode .moon-icon {
-                font-size: 3rem;
-            }
-
-            body.mobile-mode .cover-author {
-                margin-top: 10px;
-            }
-
-            /* Controls mobile */
-            body.mobile-mode .controls {
-                bottom: 16px;
-                gap: 10px;
-                width: calc(100% - 32px);
-                justify-content: space-between;
-            }
-
-            body.mobile-mode .control-btn {
-                padding: 14px 20px;
-                font-size: 0.8rem;
-                flex: 1;
-                justify-content: center;
-                border-radius: 14px;
-                background: rgba(0,0,0,0.5);
-                border: 1px solid rgba(212,175,55,0.4);
-                color: var(--gold-accent);
-            }
-
-            body.mobile-mode .control-btn:hover {
-                transform: none;
-            }
-
-            body.mobile-mode .control-btn:active {
-                background: rgba(212,175,55,0.2);
-                transform: scale(0.97);
-            }
-
-            /* Instructions di mobile */
-            body.mobile-mode .instructions {
-                font-size: 0.7rem;
-                padding: 7px 14px;
-                top: 14px;
-                white-space: nowrap;
-            }
-
-            /* Page indicator aktif di mobile */
-            .page-indicator {
-                display: block;
-            }
-
-            /* Swipe hint */
-            .swipe-hint {
-                display: block;
-            }
-        }
-
-        /* Tablet (641px - 900px) */
-        @media (min-width: 641px) and (max-width: 900px) {
-            :root {
-                --book-width: 500px;
-                --book-height: 400px;
-                --page-width: 250px;
-                --page-height: 400px;
-            }
-
-            .book {
-                transform: rotateX(0) rotateY(0);
-            }
-
-            .book:hover {
-                transform: rotateX(2deg) rotateY(-2deg);
-            }
-
-            .cover-title { font-size: 1.5rem; }
-            .page-content { padding: 16px 18px; }
-            .chapter-title { font-size: 1.1rem; }
-            .story-text { font-size: 0.85rem; line-height: 1.6; }
-
-            .controls { bottom: 20px; gap: 12px; }
-            .control-btn { padding: 10px 18px; font-size: 0.8rem; }
-
-            .instructions { font-size: 0.78rem; padding: 8px 16px; }
-        }
-
-        /* Paper texture overlay */
-        .paper-texture {
+        .baca-btn::after {
+            content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255,255,255,0.2);
+            transform: rotate(45deg);
+            transition: 0.5s;
             pointer-events: none;
-            opacity: 0.6;
         }
 
-        /* Glow effect for magical feel */
-        .magical-glow {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
-            pointer-events: none;
-            mix-blend-mode: screen;
-            transition: all 0.3s ease;
-            z-index: 999;
+        .baca-btn:hover::after {
+            left: 200%;
+        }
+
+        /* Floating Decoration */
+        .decor {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border: 2px solid rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            z-index: -1;
+        }
+        .decor-1 { top: -40px; right: -40px; }
+        .decor-2 { bottom: -40px; left: -40px; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .glass-container { padding: 30px; }
+            .synopsis-text { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
     <div class="stars"></div>
-    <div class="magical-glow" id="glow"></div>
     
-    <div class="instructions">
-        Klik cover untuk membuka buku | Klik halaman untuk membalik
-    </div>
+    <div class="glass-container">
+        <div class="decor decor-1"></div>
+        <div class="decor decor-2"></div>
+        
+        <h1>EUROPHIA:<br>Penebusan Sang Arthur</h1>
+        <span class="tagline">"Jika ini benar-benar kesempatan kedua... Tuhan... aku menyesal."</span>
+        
+        <div class="synopsis-text">
+            <p>Arthur Bolthen, pemuda yang hancur karena keserakahan, terlempar ke Europhia—dunia pemaaf namun penuh intrik. Berbekal memori kehidupan sebelumnya, ia berjuang mengubah takdir di antara keajaiban <i>Mass Zone</i> dan ancaman maut dari ras kuno.</p>
+            <p>Saksikan perjalanan penebusan epik di mana kebenaran bersinggungan dengan magis, dan setiap detik adalah langkah menuju pengampunan atau kehancuran abadi.</p>
+        </div>
 
-    <div class="book-scene">
-        <div class="book" id="book">
-            <!-- Front Cover -->
-            <div class="book-cover" id="cover">
-                <div class="cover-content">
-                    <div class="cover-decoration"></div>
-                    <div class="cover-illustration">
-                        <span class="moon-icon"><img class="cover-author-img" src="arthur.jpeg" alt=""></span>
-                    </div>
-                    <h1 class="cover-title">EUROPHIA : <br>Penebusan Sang Arthur</h1>
-                    <div class="cover-decoration"></div>
-                    <p class="cover-subtitle">Gelapnya Malam Menutupi Sinar Mentari<br>Sang Senja Berubah Menjadi Bulan Penuh Darah</p>
-                    <p class="cover-author">Sebuah Novel Fantasi <br>karya Varcieve</p>
-                </div>
+        <div class="meta-grid">
+            <div class="meta-item">
+                <strong>Penulis</strong>
+                M. Devara Hermawan
             </div>
-
-            <!-- Back Cover -->
-            <div class="book-back"></div>
-
-            <!-- Pages -->
-            <div class="pages" id="pages">
-                <!-- Page 1-2: Chapter 1 Start -->
-                <div class="page" style="z-index: 6;">
-                    <div class="page-face page-front">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <h2 class="chapter-title">Bab 1</h2>
-                            <p class="chapter-subtitle">Gelapnya Malam Menutupi Sinar Mentari</p>
-                            <div class="story-text">
-                                <p>Di sebuah negara bernama d'Chaten, hiduplah dua bersaudara yang sangat berbeda sifatnya. Kakaknya bernama Arthur Bolthen, sedangkan sang adik bernama Thesia Ruisan.</p>
-                                <p>Ketika Arthur memasuki masa SMA, kehidupannya mulai berubah ke arah yang buruk. Ia sering membolos sekolah, menghabiskan waktu bersama teman-temannya, dan mulai mengenal minuman keras. Hari demi hari, kebiasaan buruk itu semakin melekat padanya.</p>
-                                <p>Berbanding terbalik dengan Arthur, Thesia tumbuh menjadi pribadi yang rajin dan baik hati. Ia dikenal sebagai murid yang cerdas dan berhasil diterima di universitas terbaik di daerahnya.</p>
-                                <p>Namun bagi Arthur, semua itu terasa membosankan.</p>
-                            </div>
-                            <span class="page-number">1</span>
-                        </div>
-                    </div>
-                    <div class="page-face page-back">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p>Setelah lulus sekolah, ia sempat melanjutkan kuliah. Sayangnya, ia memutuskan keluar dari kampus dengan alasan merasa tidak nyaman. Sejak saat itu, Arthur memilih hidup terpisah dari orang tuanya dan menetap di sebuah kos kecil di kota Djagahrta.</p>
-                                <p>Setiap bulan, orang tuanya tetap mengirimkan uang sebesar empat juta rupiah untuknya.</p>
-                                <p>Sayangnya, uang itu tidak pernah digunakan untuk hal yang berguna. Arthur menghabiskannya untuk berpesta, minum alkohol, dan mengunjungi klub malam.</p>
-                                <p>Hingga suatu hari, kabar buruk datang.</p>
-                                <p>Kedua orang tuanya meninggal dunia.</p>
-                                <p>Alih-alih bersedih, Arthur justru lebih memikirkan warisan yang mereka tinggalkan.</p>
-                            </div>
-                            <span class="page-number">2</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Page 3-4: Chapter 1 Continued -->
-                <div class="page" style="z-index: 5;">
-                    <div class="page-face page-front">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p>Mengetahui hal itu, Thesia mencoba menemui kakaknya untuk berbicara dari hati ke hati.</p>
-                                <p style="font-style: italic; margin: 20px 0; padding-left: 20px; border-left: 3px solid var(--gold-accent);">"Arthur... kita harus membicarakan soal warisan itu," ucap Thesia dengan lembut.</p>
-                                <p>Namun Arthur yang sudah dipenuhi keserakahan tidak mau mendengar sepatah kata pun. Pertengkaran pun terjadi.</p>
-                                <p>Dalam luapan emosi, Arthur memukul adiknya hingga pingsan.</p>
-                                <p>Pada akhirnya, Arthur berhasil mengambil hampir seluruh warisan keluarga.</p>
-                                <p>Hari demi hari berlalu. Arthur hidup dalam kemewahan yang berasal dari kerja keras orang tuanya, sementara Thesia masih mencoba membujuk kakaknya untuk berubah.</p>
-                            </div>
-                            <span class="page-number">3</span>
-                        </div>
-                    </div>
-                    <div class="page-face page-back">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p>Suatu malam, Thesia kembali datang menemuinya.</p>
-                                <p style="font-style: italic; margin: 20px 0; padding-left: 20px; border-left: 3px solid var(--gold-accent);">"Arthur... kau hanya menggunakan harta hasil jerih payah orang tua kita untuk sesuatu yang tidak jelas. Ingatlah... Tuhan akan membalas semua perbuatan manusia dengan adil."</p>
-                                <p>Arthur yang sedang mabuk tersulut emosi.</p>
-                                <p style="font-style: italic; margin: 20px 0; padding-left: 20px; border-left: 3px solid #8b0000;">"Heh! Jangan sok suci ngatur hidup gue!" bentaknya.</p>
-                                <p>Pertengkaran itu kembali berubah menjadi kekerasan. Dalam keadaan emosi yang tidak terkendali, Arthur memukul adiknya dengan keras.</p>
-                                <p>Tubuh Thesia jatuh ke lantai dan tidak bergerak lagi.</p>
-                                <p>Saat itulah Arthur menyadari sesuatu yang mengerikan.</p>
-                            </div>
-                            <span class="page-number">4</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Page 5-6: Chapter 1 End -->
-                <div class="page" style="z-index: 4;">
-                    <div class="page-face page-front">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p style="font-weight: bold; text-align: center; font-size: 1.1rem; color: #8b0000; margin: 30px 0;">Adiknya telah meninggal.</p>
-                                <p style="font-style: italic; text-align: center; margin: 30px 0;">"A-aku... apa yang sudah kulakukan...?" gumamnya dengan suara gemetar.</p>
-                                <p>Penyesalan datang terlambat.</p>
-                                <p>Arthur menangis berhari-hari. Dengan tangan gemetar, ia menguburkan jasad adiknya di taman belakang pada malam hari agar tidak ada orang yang mengetahui kejadian itu.</p>
-                                <p>Namun rasa bersalah terus menghantuinya.</p>
-                                <p>Sebulan setelah kejadian itu, Arthur tidak bisa lagi menahan tekanan dalam pikirannya. Ia merasa hidupnya sudah hancur.</p>
-                            </div>
-                            <span class="page-number">5</span>
-                        </div>
-                    </div>
-                    <div class="page-face page-back">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p>Pada malam tanggal 17 Februari 2035, Arthur berdiri di tepi sebuah gedung pencakar langit. Angin malam berhembus kencang.</p>
-                                <p>Air mata mengalir di pipinya.</p>
-                                <p style="font-style: italic; text-align: center; margin: 14px 0;">"Maafkan aku… Ayah… Ibu… Thesia…"</p>
-                                <p>Namun tepat sebelum ia melangkah, kilatan cahaya yang sangat terang muncul di langit.</p>
-                                <p>Arthur terkejut.</p>
-                                <p>Tubuhnya kehilangan keseimbangan dan ia pun jatuh dari gedung itu.</p>
-                                <p>Saat tubuhnya melayang di udara, Arthur menatap langit malam yang gelap. Di tengah kegelapan itu, ia masih melihat bintang-bintang yang bersinar.</p>
-                                <p>Tubuhnya menghantam tanah.</p>
-                                <p>Hujan mulai turun deras membasahi tubuhnya.</p>
-                                <p style="text-align: center; font-weight: bold; margin-top: 16px;">Tanggal 17 Februari 2035, Arthur Bolthen menghembuskan napas terakhirnya.</p>
-                            </div>
-                            <span class="page-number">6</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Page 7-8: Chapter 1 Transition -->
-                <div class="page" style="z-index: 3;">
-                    <div class="page-face page-front">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p>Namun ketika ia membuka matanya kembali, ia tidak berada di dunia yang sama.</p>
-                                <p>Arthur terbangun di sebuah tempat kosong yang gelap—sebuah kehampaan yang terasa aneh.</p>
-                                <p>Tidak lama kemudian, dunia di sekelilingnya berubah.</p>
-                                <p>Hutan luas terbentang di hadapannya. Pohon-pohon tinggi menjulang dan hewan-hewan aneh berkeliaran.</p>
-                                <p>Arthur mengerutkan kening.</p>
-                                <p style="font-style: italic; text-align: center; margin: 20px 0;">"Apa... ini?"</p>
-                                <p>Ia sempat mengira dirinya berhalusinasi.</p>
-                                <p>Namun pikiran itu langsung terpatahkan ketika seekor serangga kecil menggigit tangannya.</p>
-                                <p>Rasa sakitnya nyata.</p>
-                                <p style="font-weight: bold; text-align: center; font-size: 1.1rem; color: var(--primary-brown);">Ini bukan mimpi.</p>
-                            </div>
-                            <span class="page-number">7</span>
-                        </div>
-                    </div>
-                    <div class="page-face page-back">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p>Sehari kemudian, Arthur berjalan menyusuri hutan tanpa tujuan hingga ia melihat sebuah bendera di kejauhan.</p>
-                                <p>Saat mendekat, ia menemukan sebuah pemukiman.</p>
-                                <p>Penduduk di sana memiliki telinga panjang dan tubuh ramping.</p>
-                                <p>Arthur langsung menyadarinya.</p>
-                                <p style="font-style: italic; text-align: center; margin: 16px 0; font-size: 1.1rem;">"Mereka… elf?"</p>
-                                <p>Penduduk desa menyambut Arthur dengan ramah dan membawanya bertemu kepala suku.</p>
-                                <p>Dari merekalah Arthur mengetahui satu hal yang mengejutkan.</p>
-                                <p style="font-weight: bold; text-align: center; font-size: 1.2rem; color: var(--primary-brown); margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--gold-accent);">Ia berada di dunia bernama Europhia.</p>
-                                <p style="text-align: center; font-style: italic; color: #888; margin-top: 30px; font-size: 0.85rem;">— Akhir Bab 1 —</p>
-                            </div>
-                            <span class="page-number">8</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Page 9-10: Chapter 2 Start -->
-                <div class="page" style="z-index: 2;">
-                    <div class="page-face page-front">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <h2 class="chapter-title">Bab 2</h2>
-                            <p class="chapter-subtitle">Sang Senja Berubah Menjadi Bulan Penuh Darah</p>
-                            <div class="story-text">
-                                <p>Beberapa bulan telah berlalu sejak Arthur tinggal bersama klan elf.</p>
-                                <p>Selama waktu itu, ia belajar tentang konsep Mass Zone—kemampuan memanipulasi massa di sekitar tubuh.</p>
-                                <p>Arthur juga membantu para elf membangun berbagai hal, termasuk sebuah jembatan besar yang menghubungkan dua gunung agar jalur perdagangan menjadi lebih mudah.</p>
-                                <p>Namun meskipun kehidupannya mulai membaik, Arthur tidak pernah melupakan tujuan utamanya.</p>
-                                <p style="font-style: italic; text-align: center; margin: 20px 0; font-weight: bold;">Ia ingin kembali ke Bumi.</p>
-                                <p>Suatu hari, setelah berpamitan dengan kepala suku elf, Arthur memutuskan untuk kembali berkelana.</p>
-                            </div>
-                            <span class="page-number">9</span>
-                        </div>
-                    </div>
-                    <div class="page-face page-back">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p style="font-style: italic; margin: 20px 0; padding-left: 20px; border-left: 3px solid var(--gold-accent);">"Aku berhutang banyak pada kalian," ucap Arthur.</p>
-                                <p>Kepala suku elf tersenyum.</p>
-                                <p style="font-style: italic; margin: 20px 0; padding-left: 20px; border-left: 3px solid var(--gold-accent);">"Pergilah. Dunia ini luas. Masih banyak yang belum kau lihat."</p>
-                                <p>Arthur pun meninggalkan desa itu.</p>
-                                <p>Namun di hari yang sama, konflik baru muncul di wilayah hutan elf.</p>
-                                <p>Konflik itu bermula dari klan Minotaur.</p>
-                                <p>Makhluk bertubuh besar dengan kepala seperti banteng itu sering melewati wilayah hutan elf dan merusak tanaman mereka.</p>
-                                <p>Putra raja elf yang berusia enam belas tahun mencoba menghentikan mereka.</p>
-                                <p>Namun keputusan itu membawa masalah.</p>
-                            </div>
-                            <span class="page-number">10</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Page 11-12: Chapter 2 End -->
-                <div class="page" style="z-index: 1;">
-                    <div class="page-face page-front">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p>Seorang minotaur muncul di hutan dan menyerangnya.</p>
-                                <p>Tubuh makhluk itu besar dan berotot, dengan kuku tajam dan napas berat seperti binatang buas.</p>
-                                <p>Putra raja elf mulai terpojok.</p>
-                                <p>Di tempat lain, Arthur yang sedang melewati hutan mendengar suara pertempuran.</p>
-                                <p>Awalnya ia tidak ingin ikut campur.</p>
-                                <p>Namun ketika ia melihat seorang elf muda hampir terbunuh, ia teringat pada adiknya.</p>
-                                <p>Arthur menggenggam tongkat kayu yang selalu ia bawa.</p>
-                                <p style="font-style: italic; text-align: center; margin: 20px 0; font-weight: bold; color: #8b0000;">"Aku tidak akan membiarkan ini terjadi lagi..."</p>
-                                <p>Ia melompat ke atas pohon dan mengaktifkan Mass Zone miliknya.</p>
-                            </div>
-                            <span class="page-number">11</span>
-                        </div>
-                    </div>
-                    <div class="page-face page-back">
-                        <div class="paper-texture"></div>
-                        <div class="page-content">
-                            <div class="story-text">
-                                <p>Sebuah bola transparan muncul di sekeliling tubuhnya.</p>
-                                <p>Arthur mulai menyerang dari atas pohon.</p>
-                                <p>Ia memanipulasi massa pohon-pohon di sekitarnya dan membuat batang-batang besar menghantam tubuh minotaur.</p>
-                                <p>Namun tubuh minotaur itu terlalu kuat.</p>
-                                <p>Serangan itu hanya membuatnya mundur sedikit.</p>
-                                <p>Arthur mulai berkeringat.</p>
-                                <p style="font-style: italic; text-align: center; margin: 20px 0;">"Gawat... kekuatannya jauh di atasku..."</p>
-                                <p>Minotaur itu menatap Arthur dengan marah.</p>
-                                <p>Kini perhatian makhluk itu sepenuhnya tertuju pada Arthur.</p>
-                                <p style="font-weight: bold; text-align: center; font-size: 1.2rem; color: #8b0000; margin-top: 30px; border-top: 2px solid var(--gold-accent); border-bottom: 2px solid var(--gold-accent); padding: 10px 0;">Pertarungan yang sebenarnya... baru saja dimulai.</p>
-                                <p style="text-align: center; margin-top: 40px; font-style: italic; color: #666;">— Bersambung —</p>
-                            </div>
-                            <span class="page-number">12</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="meta-item">
+                <strong>Status</strong>
+                Ongoing
+            </div>
+            <div class="meta-item">
+                <strong>Genre</strong>
+                Fantasy / Isekai
+            </div>
+            <div class="meta-item">
+                <strong>Rilis</strong>
+                2026
             </div>
         </div>
+
+        <a href="book.html" class="baca-btn">BACA SEKARANG</a>
     </div>
-
-    <!-- Controls -->
-    <div class="controls">
-        <button class="control-btn" id="prevBtn" onclick="prevPage()">
-            <span>◀</span> Sebelumnya
-        </button>
-        <button class="control-btn" id="nextBtn" onclick="nextPage()">
-            Selanjutnya <span>▶</span>
-        </button>
-        <button class="control-btn" id="resetBtn" onclick="resetBook()">
-            <span>↺</span> Tutup
-        </button>
-    </div>
-
-    <!-- Page Indicator (mobile only) -->
-    <div class="page-indicator" id="pageIndicator">1 / 12</div>
-
-    <!-- Swipe Hint (mobile only) -->
-    <div class="swipe-hint" id="swipeHint">← Geser untuk membalik →</div>
 
     <script>
-        let currentPage = 0;
-        const totalPages = 6; // 6 sheets = 12 pages
-        const book = document.getElementById('book');
-        const cover = document.getElementById('cover');
-        const pages = document.querySelectorAll('.page');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const pageIndicator = document.getElementById('pageIndicator');
-        const swipeHintEl = document.getElementById('swipeHint');
-        let isBookOpen = false;
-
-        // ===== DETEKSI MODE MOBILE =====
-        let isMobile = window.matchMedia('(max-width: 640px)').matches;
-        
-        // Di mobile, setiap halaman buku punya 2 muka (front & back)
-        // totalMobilePages = 6 lembar × 2 muka = 12 halaman individual
-        let mobilePage = 0;      // 0 = cover, 1..12 = isi halaman
-        const totalMobilePages = 12;
-
-        function initMobileMode() {
-            isMobile = window.matchMedia('(max-width: 640px)').matches;
-            if (isMobile) {
-                document.body.classList.add('mobile-mode');
-                // Semua page mulai hidden
-                pages.forEach(p => p.classList.remove('mobile-active'));
-                // Set cover sebagai tampilan awal
-                mobilePage = 0;
-                updateMobileView();
-                setupSwipeGesture();
-                // Tampilkan swipe hint setelah buku dibuka
-            } else {
-                document.body.classList.remove('mobile-mode');
-            }
-        }
-
-        // ----- Mobile: tampilkan halaman berdasarkan mobilePage -----
-        // mobilePage 0 = cover
-        // mobilePage 1-12 = halaman buku (ganjil=front, genap=back)
-        function updateMobileView() {
-            if (!isMobile) return;
-
-            // Semua page hilang dulu
-            pages.forEach(p => {
-                p.classList.remove('mobile-active');
-                p.classList.remove('flipped');
-                p.style.zIndex = 1;
-            });
-
-            if (mobilePage === 0) {
-                // Tampilkan cover
-                cover.style.transform = '';
-                cover.style.zIndex = 100;
-                return;
-            }
-
-            // Sembunyikan cover
-            cover.style.transform = 'rotateY(-180deg)';
-            cover.style.zIndex = 0;
-
-            // mobilePage 1 = halaman 1 (front lembar 1)
-            // mobilePage 2 = halaman 2 (back lembar 1)
-            // mobilePage 3 = halaman 3 (front lembar 2) ... dst
-            const sheetIndex = Math.ceil(mobilePage / 2) - 1; // 0-based lembar
-            const isFront = mobilePage % 2 !== 0;
-
-            if (sheetIndex >= 0 && sheetIndex < pages.length) {
-                const activePage = pages[sheetIndex];
-                activePage.style.zIndex = 10;
-                activePage.classList.add('mobile-active');
-
-                // Tampilkan face yang benar
-                const front = activePage.querySelector('.page-front');
-                const back = activePage.querySelector('.page-back');
-                if (isFront) {
-                    if (front) front.style.display = 'block';
-                    if (back) back.style.display = 'none';
-                } else {
-                    if (front) front.style.display = 'none';
-                    if (back) { back.style.display = 'block'; back.style.transform = 'none'; }
-                }
-            }
-
-            updatePageIndicator();
-        }
-
-        function updatePageIndicator() {
-            if (!pageIndicator) return;
-            if (mobilePage === 0) {
-                pageIndicator.textContent = 'Cover';
-            } else {
-                pageIndicator.textContent = mobilePage + ' / ' + totalMobilePages;
-            }
-        }
-
-        // ----- Swipe gesture -----
-        let touchStartX = 0;
-        let touchStartY = 0;
-
-        function setupSwipeGesture() {
-            document.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-            }, { passive: true });
-
-            document.addEventListener('touchend', function(e) {
-                const dx = e.changedTouches[0].screenX - touchStartX;
-                const dy = e.changedTouches[0].screenY - touchStartY;
-                // Minimal swipe 50px, dan horizontal lebih dominan
-                if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-                    if (dx < 0) {
-                        mobileNextPage();
-                    } else {
-                        mobilePrevPage();
-                    }
-                }
-            }, { passive: true });
-        }
-
-        function mobileNextPage() {
-            if (!isBookOpen) {
-                // Buka buku
-                isBookOpen = true;
-                mobilePage = 1;
-                updateMobileView();
-                updateButtons();
-                showSwipeHint();
-                return;
-            }
-            if (mobilePage < totalMobilePages) {
-                mobilePage++;
-                updateMobileView();
-                updateButtons();
-            }
-        }
-
-        function mobilePrevPage() {
-            if (mobilePage > 1) {
-                mobilePage--;
-                updateMobileView();
-                updateButtons();
-            } else if (mobilePage === 1) {
-                // Kembali ke cover
-                mobilePage = 0;
-                isBookOpen = false;
-                updateMobileView();
-                updateButtons();
-            }
-        }
-
-        function showSwipeHint() {
-            if (!swipeHintEl) return;
-            swipeHintEl.style.display = 'block';
-            swipeHintEl.style.animation = 'none';
-            void swipeHintEl.offsetWidth;
-            swipeHintEl.style.animation = 'fadeHint 3s ease-in-out forwards';
-            setTimeout(() => { swipeHintEl.style.display = 'none'; }, 3000);
-        }
-
-        // ===== DESKTOP MODE =====
-        // Cover click to open
-        cover.addEventListener('click', function() {
-            if (isMobile) {
-                mobileNextPage();
-                return;
-            }
-            if (!isBookOpen) openBook();
+        // Subtle Mouse parallax
+        document.addEventListener('mousemove', (e) => {
+            const container = document.querySelector('.glass-container');
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            container.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
         });
-
-        function openBook() {
-            isBookOpen = true;
-            book.classList.add('open');
-            updateButtons();
-        }
-
-        function updateZIndex() {
-            pages.forEach((page, index) => {
-                if (page.classList.contains('flipped')) {
-                    page.style.zIndex = index + 1;
-                } else {
-                    page.style.zIndex = totalPages - index;
-                }
-            });
-        }
-
-        function resetBook() {
-            if (isMobile) {
-                mobilePage = 0;
-                isBookOpen = false;
-                updateMobileView();
-                // Reset semua face visibility
-                pages.forEach(p => {
-                    const front = p.querySelector('.page-front');
-                    const back = p.querySelector('.page-back');
-                    if (front) front.style.display = '';
-                    if (back) { back.style.display = ''; back.style.transform = ''; }
-                });
-                updateButtons();
-                return;
-            }
-            pages.forEach((page, index) => {
-                page.classList.remove('flipped');
-                page.style.zIndex = totalPages - index;
-            });
-            currentPage = 0;
-            isBookOpen = false;
-            book.classList.remove('open');
-            updateButtons();
-        }
-
-        function nextPage() {
-            if (isMobile) { mobileNextPage(); return; }
-            if (!isBookOpen) { openBook(); return; }
-            if (currentPage < totalPages) {
-                pages[currentPage].classList.add('flipped');
-                currentPage++;
-                updateZIndex();
-                updateButtons();
-            }
-        }
-
-        function prevPage() {
-            if (isMobile) { mobilePrevPage(); return; }
-            if (currentPage > 0) {
-                currentPage--;
-                pages[currentPage].classList.remove('flipped');
-                updateZIndex();
-                updateButtons();
-            } else if (isBookOpen && currentPage === 0) {
-                resetBook();
-            }
-        }
-
-        function updateButtons() {
-            const onLastPage = isMobile ? mobilePage >= totalMobilePages : currentPage >= totalPages;
-            const bookIsOpen = isMobile ? isBookOpen : isBookOpen;
-
-            prevBtn.disabled = !bookIsOpen && (isMobile ? mobilePage === 0 : true);
-            nextBtn.disabled = onLastPage;
-
-            if (onLastPage) {
-                nextBtn.innerHTML = '<span>✓</span> Selesai';
-                nextBtn.disabled = true;
-            } else {
-                nextBtn.innerHTML = isMobile ? 'Lanjut <span>▶</span>' : 'Selanjutnya <span>▶</span>';
-            }
-
-            prevBtn.disabled = isMobile ? (mobilePage === 0) : !isBookOpen;
-        }
-
-        // Click on pages to flip (desktop)
-        pages.forEach((page, index) => {
-            page.addEventListener('click', function(e) {
-                if (isMobile) return; // Mobile pakai swipe
-                if (e.offsetX > this.offsetWidth - 20) return;
-                if (index === currentPage && isBookOpen) {
-                    nextPage();
-                } else if (index === currentPage - 1) {
-                    prevPage();
-                }
-            });
-        });
-
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight') nextPage();
-            if (e.key === 'ArrowLeft') prevPage();
-            if (e.key === 'Escape') resetBook();
-        });
-
-        // Magical glow effect following mouse
-        document.addEventListener('mousemove', function(e) {
-            const glow = document.getElementById('glow');
-            const x = e.clientX - 150;
-            const y = e.clientY - 150;
-            glow.style.left = x + 'px';
-            glow.style.top = y + 'px';
-        });
-
-        // Window resize
-        window.addEventListener('resize', function() {
-            const wasMobile = isMobile;
-            isMobile = window.matchMedia('(max-width: 640px)').matches;
-            if (isMobile !== wasMobile) {
-                // Reset semua state saat pindah breakpoint
-                currentPage = 0;
-                mobilePage = 0;
-                isBookOpen = false;
-                pages.forEach((page, index) => {
-                    page.classList.remove('flipped', 'mobile-active');
-                    page.style.zIndex = totalPages - index;
-                    const front = page.querySelector('.page-front');
-                    const back = page.querySelector('.page-back');
-                    if (front) front.style.display = '';
-                    if (back) { back.style.display = ''; back.style.transform = ''; }
-                });
-                cover.style.transform = '';
-                cover.style.zIndex = '';
-                book.classList.remove('open');
-                initMobileMode();
-                updateButtons();
-            }
-        });
-
-        // Page turn visual effect
-        function addPageTurnEffect() {
-            if (isMobile) return; // Skip di mobile
-            const effect = document.createElement('div');
-            effect.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 100px;
-                height: 100px;
-                background: radial-gradient(circle, rgba(212,175,55,0.3) 0%, transparent 70%);
-                pointer-events: none;
-                opacity: 0;
-                transition: opacity 0.3s;
-                z-index: 9999;
-            `;
-            document.body.appendChild(effect);
-            setTimeout(() => effect.style.opacity = '1', 10);
-            setTimeout(() => {
-                effect.style.opacity = '0';
-                setTimeout(() => effect.remove(), 300);
-            }, 300);
-        }
-
-        const originalNext = nextPage;
-        const originalPrev = prevPage;
-        nextPage = function() { addPageTurnEffect(); originalNext(); };
-        prevPage = function() { addPageTurnEffect(); originalPrev(); };
-
-        // ===== SCROLL MOUSE WHEEL & TOUCH =====
-        // Teruskan scroll mouse wheel ke page-content di dalam setiap page-face
-        document.querySelectorAll('.page-face').forEach(face => {
-            face.addEventListener('wheel', function(e) {
-                const content = this.querySelector('.page-content');
-                if (!content) return;
-                const atTop    = content.scrollTop <= 0;
-                const atBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 1;
-                // Jika konten masih bisa digulir ke arah yang diminta, scroll-kan
-                if ((e.deltaY > 0 && !atBottom) || (e.deltaY < 0 && !atTop)) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    content.scrollTop += e.deltaY;
-                }
-            }, { passive: false });
-        });
-
-        // Mobile: swipe hanya diproses saat page-content sudah di ujung scroll
-        // Overwrite setupSwipeGesture dengan versi yang lebih cerdas
-        function setupSwipeGesture() {
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let scrollingContent = null;
-
-            document.addEventListener('touchstart', function(e) {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
-                // Catat elemen page-content yang disentuh (jika ada)
-                scrollingContent = e.target.closest('.page-content');
-            }, { passive: true });
-
-            document.addEventListener('touchend', function(e) {
-                const dx = e.changedTouches[0].screenX - touchStartX;
-                const dy = e.changedTouches[0].screenY - touchStartY;
-                const isHorizontal = Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5;
-                if (!isHorizontal) return; // Bukan swipe horizontal → biarkan scroll biasa
-
-                // Jika ada page-content yang sedang discroll, cek apakah sudah di ujung
-                if (scrollingContent) {
-                    const atLeft  = dx > 0;
-                    const atRight = dx < 0;
-                    const atTop    = scrollingContent.scrollTop <= 0;
-                    const atBottom = scrollingContent.scrollTop + scrollingContent.clientHeight >= scrollingContent.scrollHeight - 2;
-                    // Kalau swipe kanan tapi konten belum di atas, jangan flip
-                    if (atLeft  && !atTop) return;
-                    // Kalau swipe kiri tapi konten belum di bawah, jangan flip
-                    if (atRight && !atBottom) return;
-                }
-
-                if (dx < 0) {
-                    mobileNextPage();
-                } else {
-                    mobilePrevPage();
-                }
-            }, { passive: true });
-        }
-
-        // Initialize
-        initMobileMode();
-        updateButtons();
     </script>
 </body>
-
 </html>
