@@ -16,6 +16,7 @@
             --dark-brown: #281815;
             --gold-accent: #d4af37;
             --paper-color: #f5f5dc;
+            --book-scale: 1;
         }
 
         body {
@@ -27,6 +28,7 @@
             align-items: center;
             font-family: 'Crimson Text', serif;
             overflow: hidden;
+            touch-action: manipulation;
         }
 
         .stars {
@@ -61,6 +63,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-shrink: 0;
+            transform: scale(var(--book-scale, 1));
+            transform-origin: center center;
+            transition: transform 0.25s ease-out;
         }
 
         .book {
@@ -68,7 +74,7 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
 
         /* Pages */
@@ -245,66 +251,46 @@
             z-index: 100;
         }
 
-        /* ===== MOBILE RESPONSIVE REFINED ===== */
+        /* ===== MOBILE RESPONSIVE SCALED ===== */
         @media (max-width: 850px) {
-            :root {
-                --book-width: 92vw;
-                --book-height: 85vh;
-                --page-width: 92vw;
-                --page-height: 85vh;
-            }
-
             body {
-                overflow: hidden;
-                touch-action: none;
-                flex-direction: column;
-                background: #0a0a1a;
-            }
-
-            .book-container {
-                width: var(--book-width);
-                height: var(--book-height);
-                perspective: 1500px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                transform: translateY(-20px);
-            }
-
-            .book {
-                width: 100%;
-                height: 100%;
-                transform-style: preserve-3d;
-            }
-
-            .page {
-                width: 100%;
-                height: 100%;
-                left: 0;
-                top: 0;
-                transform-origin: center !important; 
-                transition: none !important; /* No animation on mobile */
-            }
-
-            .mobile-hide {
-                display: none !important; /* Use display none for instant switch */
+                touch-action: manipulation;
             }
 
             .page-side {
-                padding: 30px 20px;
-                width: 100%;
-                height: 100%;
-                box-shadow: 0 0 20px rgba(0,0,0,0.5);
+                padding: 28px 24px;
             }
 
             .content {
-                font-size: 0.95rem;
-                line-height: 1.6;
+                font-size: 1.1rem;
+                line-height: 1.65;
             }
 
-            .chapter-title { font-size: 1.25rem; }
-            .chapter-subtitle { font-size: 0.85rem; margin-bottom: 20px; }
-            .instructions { font-size: 0.7rem; top: 15px; }
+            .chapter-title {
+                font-size: 1.35rem;
+            }
+
+            .chapter-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 20px;
+            }
+
+            .book-controls {
+                bottom: 18px;
+                gap: 10px;
+            }
+
+            .btn-novel {
+                padding: 10px 18px;
+                font-size: 0.78rem;
+                letter-spacing: 0.5px;
+            }
+
+            .instructions {
+                font-size: 0.72rem;
+                top: 14px;
+                letter-spacing: 1px;
+            }
         }
 
         /* ===== CONTROLS STYLING ===== */
@@ -1022,14 +1008,46 @@
         let currentStep = 0; // Steps are sides (0 = Page 1 Front, 1 = Page 1 Back, etc.)
         const totalSteps = pages.length * 2;
 
+        function updateBookScale() {
+            const winW = window.innerWidth;
+            const winH = window.innerHeight;
+            const paddingX = 20;
+            const paddingY = winW <= 850 ? 110 : 120;
+
+            const availW = winW - paddingX;
+            const availH = winH - paddingY;
+
+            const baseW = 800;
+            const baseH = 550;
+
+            let scale = Math.min(availW / baseW, availH / baseH);
+            if (scale > 1) scale = 1;
+            if (scale < 0.3) scale = 0.3;
+
+            document.documentElement.style.setProperty('--book-scale', scale);
+        }
+
+        function updateBookTransform(tiltX = 0, tiltY = 0) {
+            if (!pages || !pages.length) return;
+            const isClosed = !pages[0].classList.contains('flipped');
+            const shiftX = isClosed ? -200 : 0;
+
+            // Only apply 3D mouse tilt on desktop when there is actual movement
+            if (window.innerWidth > 850 && (tiltX !== 0 || tiltY !== 0)) {
+                book.style.transform = `translateX(${shiftX}px) rotateY(${tiltX}deg) rotateX(${tiltY}deg)`;
+            } else {
+                book.style.transform = `translateX(${shiftX}px)`;
+            }
+        }
+
+        // Initialize scale & transform immediately
+        updateBookScale();
+        updateBookTransform();
+
         pages.forEach((page, index) => {
             page.style.zIndex = pages.length - index;
             page.addEventListener('click', (e) => {
-                if (window.innerWidth > 850) {
-                    desktopFlip(page, index);
-                } else {
-                    nextStep();
-                }
+                desktopFlip(page, index);
             });
         });
 
@@ -1045,82 +1063,43 @@
                     page.style.zIndex = index + 1;
                 }, 500);
             }
+            updateBookTransform();
         }
 
         function nextStep() {
-            if (window.innerWidth <= 850) {
-                if (currentStep < totalSteps - 1) {
-                    currentStep++;
-                    updateMobileView();
-                }
-            } else {
-                const nextUnflipped = [...pages].find(p => !p.classList.contains('flipped'));
-                if (nextUnflipped) {
-                    const index = Array.from(pages).indexOf(nextUnflipped);
-                    desktopFlip(nextUnflipped, index);
-                }
+            const nextUnflipped = [...pages].find(p => !p.classList.contains('flipped'));
+            if (nextUnflipped) {
+                const index = Array.from(pages).indexOf(nextUnflipped);
+                desktopFlip(nextUnflipped, index);
             }
         }
 
         function prevStep() {
-            if (window.innerWidth <= 850) {
-                if (currentStep > 0) {
-                    currentStep--;
-                    updateMobileView();
-                }
-            } else {
-                const flippedPages = [...pages].filter(p => p.classList.contains('flipped'));
-                if (flippedPages.length > 0) {
-                    const lastFlipped = flippedPages[flippedPages.length - 1];
-                    const index = Array.from(pages).indexOf(lastFlipped);
-                    desktopFlip(lastFlipped, index);
-                }
+            const flippedPages = [...pages].filter(p => p.classList.contains('flipped'));
+            if (flippedPages.length > 0) {
+                const lastFlipped = flippedPages[flippedPages.length - 1];
+                const index = Array.from(pages).indexOf(lastFlipped);
+                desktopFlip(lastFlipped, index);
             }
-        }
-
-        function updateMobileView() {
-            const isMobile = window.innerWidth <= 850;
-            if (!isMobile) return;
-
-            const activeSheetIndex = Math.floor(currentStep / 2);
-            const isBackSide = currentStep % 2 === 1;
-
-            pages.forEach((page, index) => {
-                page.classList.remove('mobile-hide');
-                if (index < activeSheetIndex) {
-                    page.classList.add('mobile-hide');
-                    page.classList.add('flipped'); // Ensure z-index follows
-                } else if (index === activeSheetIndex) {
-                    page.style.zIndex = 100;
-                    if (isBackSide) page.classList.add('flipped');
-                    else page.classList.remove('flipped');
-                } else {
-                    page.classList.remove('flipped');
-                    page.style.zIndex = pages.length - index;
-                }
-            });
         }
 
         function tutupBuku() {
             currentStep = 0;
             localStorage.setItem('europhia_bookmark_v3', 0);
-            if (window.innerWidth <= 850) {
-                updateMobileView();
-            } else {
-                [...pages].reverse().forEach((page, index) => {
-                    setTimeout(() => {
-                        if (page.classList.contains('flipped')) {
-                            page.classList.remove('flipped');
-                            const originalIndex = pages.length - 1 - index;
-                            setTimeout(() => page.style.zIndex = pages.length - originalIndex, 500);
-                        }
-                    }, index * 80);
-                });
-            }
+            [...pages].reverse().forEach((page, index) => {
+                setTimeout(() => {
+                    if (page.classList.contains('flipped')) {
+                        page.classList.remove('flipped');
+                        const originalIndex = pages.length - 1 - index;
+                        setTimeout(() => page.style.zIndex = pages.length - originalIndex, 500);
+                    }
+                }, index * 60);
+            });
+            setTimeout(() => updateBookTransform(0, 0), 100);
         }
 
         function saveBookmark() {
-            const progress = (window.innerWidth <= 850) ? currentStep : getDesktopProgress();
+            const progress = getDesktopProgress();
             localStorage.setItem('europhia_bookmark_v3', progress);
             alertBox.style.display = 'block';
             setTimeout(() => alertBox.style.display = 'none', 2000);
@@ -1133,21 +1112,19 @@
         }
 
         function loadBookmark() {
+            updateBookScale();
             const saved = localStorage.getItem('europhia_bookmark_v3');
             if (saved !== null) {
                 currentStep = parseInt(saved);
-                if (window.innerWidth > 850) {
-                    const sheetsToFlip = Math.floor(currentStep / 2);
-                    pages.forEach((page, i) => {
-                        if (i < sheetsToFlip) {
-                            page.classList.add('flipped');
-                            page.style.zIndex = i + 1;
-                        }
-                    });
-                } else {
-                    updateMobileView();
-                }
+                const sheetsToFlip = Math.floor(currentStep / 2);
+                pages.forEach((page, i) => {
+                    if (i < sheetsToFlip) {
+                        page.classList.add('flipped');
+                        page.style.zIndex = i + 1;
+                    }
+                });
             }
+            updateBookTransform();
         }
 
         window.onload = loadBookmark;
@@ -1164,15 +1141,16 @@
             }
             if (window.innerWidth > 850) {
                 const firstPage = pages[0];
-                if (!firstPage.classList.contains('flipped')) {
-                    const xAxis = (window.innerWidth / 2 - x) / 25;
-                    const yAxis = (window.innerHeight / 2 - y) / 25;
-                    book.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+                const isClosed = !firstPage.classList.contains('flipped');
+                if (isClosed) {
+                    const tiltX = (window.innerWidth / 2 - x) / 30;
+                    const tiltY = (window.innerHeight / 2 - y) / 30;
+                    updateBookTransform(tiltX, tiltY);
                 } else {
-                    book.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                    updateBookTransform(0, 0);
                 }
             } else {
-                book.style.transform = `none`;
+                updateBookTransform(0, 0);
             }
         }
 
@@ -1191,8 +1169,14 @@
         }
 
         window.addEventListener('resize', () => {
-            if (window.innerWidth > 850) pages.forEach(p => p.classList.remove('mobile-hide'));
-            else updateMobileView();
+            updateBookScale();
+            updateBookTransform();
+        });
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                updateBookScale();
+                updateBookTransform();
+            }, 150);
         });
     </script>
 
