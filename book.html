@@ -87,6 +87,8 @@
 
         .page-side {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             backface-visibility: hidden;
@@ -147,33 +149,76 @@
             padding-bottom: 10px;
         }
 
-        /* Cover */
-        .cover {
-            background: linear-gradient(45deg, #4a2c2a 0%, #2c1810 100%) !important;
-            border: 4px solid var(--gold-accent);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--gold-accent) !important;
+        /* Illustrations */
+        .illustration-box {
+            margin: 0 0 8px 0;
             text-align: center;
         }
 
-        .cover h1 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2rem;
-            margin: 20px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        .illustration-img {
+            width: 100%;
+            height: auto;
+            border-radius: 6px;
+            border: 2px solid rgba(212, 175, 55, 0.45);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: block;
+            margin: 0 auto;
+            cursor: zoom-in;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .cover-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+        .illustration-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .map-caption {
+            font-style: italic;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #5d3a24;
+            margin-top: 6px;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Cover */
+        .cover {
+            padding: 0 !important;
+            overflow: hidden !important;
             border: 3px solid var(--gold-accent);
+            background: #0d1217 !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        .cover-full-img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(212,175,55,0.4);
+            display: block;
+            border-radius: 0 3px 3px 0;
+        }
+
+        /* Spine crease and gloss overlay */
+        .cover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 35px;
+            background: linear-gradient(
+                to right,
+                rgba(0, 0, 0, 0.45) 0%,
+                rgba(0, 0, 0, 0.1) 40%,
+                rgba(255, 255, 255, 0.18) 60%,
+                transparent 100%
+            );
+            pointer-events: none;
         }
 
         .page-number {
@@ -348,326 +393,603 @@
         <div class="book" id="book">
             
             <!-- Page 1: Cover -->
-            <div class="page" style="z-index: 18;">
-                <div class="page-side page-front cover">
-                    <img src="arthur.jpeg" class="cover-img" alt="Arthur">
-                    <h1>EUROPHIA:<br>Penebusan Sang Arthur</h1>
-                    <p style="font-style: italic;">"Jika ini benar-benar kesempatan kedua... Tuhan... aku menyesal."</p>
+            <div class="page" style="z-index: 30;">
+                <div class="page-side page-front cover" title="Klik untuk membuka buku">
+                    <img src="img/cover/cover.jpg" class="cover-full-img" alt="Cover EUROPHIA: Penebusan Sang Arthur">
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
                         <h2 class="chapter-title">DAFTAR ISI</h2>
                         <ul style="list-style: none; padding: 0; text-align: center; margin-top: 50px;">
-                            <li style="margin-bottom: 20px;">BAB 1: Gelapnya Malam Menutupi Sinar Mentari</li>
-                            <li>BAB 2: Sang Senja Berubah Menjadi Bulan Penuh Darah</li>
+                            <li style="margin-bottom: 20px;">BAB I: Gelapnya Malam Menutupi Sinar Mentari</li>
+                            <li style="margin-bottom: 20px;">BAB II: Sang Senja Berubah Menjadi Bulan Penuh Darah</li>
+                            <li>BAB III: Getaran di Balik Batas Kemampuan</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <!-- Page 1-2 Text -->
-            <div class="page" style="z-index: 17;">
+            <div class="page" style="z-index: 29;">
                 <div class="page-side page-front">
-                    <h2 class="chapter-title">BAB 1</h2>
+                    <h2 class="chapter-title">BAB I</h2>
                     <p class="chapter-subtitle">Gelapnya Malam Menutupi Sinar Mentari</p>
                     <div class="content">
-                        <p>Di sebuah negara bernama d’Chaten, hiduplah dua bersaudara yang sangat berbeda sifatnya. Kakaknya bernama Arthur Bolthen, sedangkan sang adik bernama Thesia Ruisan.</p>
-                        <p>Ketika Arthur memasuki masa SMA, kehidupannya mulai berubah ke arah yang buruk. Ia sering membolos sekolah, menghabiskan waktu bersama teman-temannya, dan mulai mengenal minuman keras. Hari demi hari, kebiasaan buruk itu semakin melekat padanya.</p>
-                        <p>Berbanding terbalik dengan Arthur, Thesia tumbuh menjadi pribadi yang rajin dan baik hati. Ia dikenal sebagai murid yang cerdas dan berhasil diterima di universitas terbaik di daerahnya.</p>
+                        <p>Di sebuah negara bernama d’Chaten, hiduplah dua bersaudara yang sifatnya bertolak belakang. Kakaknya bernama Arthur Bolthen, sedangkan adiknya bernama Thesia Ruisan.</p>
+                        <p>Memasuki masa SMA, kehidupan Arthur mulai berantakan. Ia sering membolos sekolah, larut dalam pergaulan bebas, dan mulai akrab dengan minuman keras. Hari demi hari, kebiasaan buruk itu makin sulit dilepaskan.</p>
                     </div>
                     <span class="page-number">1</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Namun bagi Arthur, semua itu terasa membosankan.</p>
-                        <p>Setelah lulus sekolah, ia sempat melanjutkan kuliah. Sayangnya, ia memutuskan keluar dari kampus dengan alasan merasa tidak nyaman. Sejak saat itu, Arthur memilih hidup terpisah dari orang tuanya dan menetap di sebuah kos kecil di kota Djagahrta.</p>
-                        <p>Setiap bulan, orang tuanya tetap mengirimkan uang sebesar empat juta rupiah untuknya. Sayangnya, uang itu tidak pernah digunakan untuk hal yang berguna. Arthur menghabiskannya untuk berpesta, minum alkohol, dan mengunjungi klub malam.</p>
+                        <p>Berbeda jauh dengan kakaknya, Thesia justru tumbuh menjadi gadis yang rajin dan baik hati. Berkat kecerdasannya, ia berhasil lolos ke universitas terbaik di daerahnya.</p>
+                        <p>Namun bagi Arthur, semua pencapaian itu terasa membosankan.</p>
+                        <p>Selepas lulus sekolah, ia sempat mencoba kuliah, tapi tak bertahan lama. Dengan alasan merasa tidak nyaman, ia memilih keluar dari kampus. Sejak saat itu, Arthur memutuskan hidup terpisah dari orang tuanya dan menetap di sebuah kos kecil di kota Djagahrta.</p>
                     </div>
                     <span class="page-number">2</span>
                 </div>
             </div>
 
             <!-- Page 3-4 Text -->
-            <div class="page" style="z-index: 16;">
+            <div class="page" style="z-index: 28;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Hingga suatu hari, kabar buruk datang.</p>
-                        <p>Kedua orang tuanya meninggal dunia. Alih-alih bersedih, Arthur justru lebih memikirkan warisan yang mereka tinggalkan. Mengetahui hal itu, Thesia mencoba menemui kakaknya untuk berbicara dari hati ke hati.</p>
-                        <p>“Arthur… kita harus membicarakan soal warisan itu,” ucap Thesia dengan lembut.</p>
-                        <p>Namun Arthur yang sudah dipenuhi keserakahan tidak mau mendengar sepatah kata pun. Pertengkaran pun terjadi. Dalam luapan emosi, Arthur memukul adiknya hingga pingsan.</p>
+                        <p>Setiap bulan, orang tuanya tetap mengiriminya uang sebesar empat juta rupiah. Sayangnya, uang itu tak pernah dipakai untuk hal berguna. Semuanya habis di meja pesta, botol alkohol, dan klub malam.</p>
+                        <p>Hingga suatu hari, kabar duka itu datang.</p>
+                        <p>Kedua orang tuanya meninggal dunia. Bukannya bersedih, pikiran Arthur justru langsung tertuju pada harta warisan yang mereka tinggalkan. Menyadari hal itu, Thesia mencoba menemui kakaknya untuk bicara baik-baik.</p>
+                        <p>“Arthur… kita harus membicarakan soal warisan itu,” ucap Thesia lembut.</p>
                     </div>
                     <span class="page-number">3</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Pada akhirnya, Arthur berhasil mengambil hampir seluruh warisan keluarga.</p>
-                        <p>Hari demi hari berlalu. Arthur hidup dalam kemewahan yang berasal dari kerja keras orang tuanya, sementara Thesia masih mencoba membujuk kakaknya untuk berubah. Suatu malam, Thesia kembali datang menemuinya.</p>
-                        <p>“Arthur… kau hanya menggunakan harta hasil jerih payah orang tua kita untuk sesuatu yang tidak jelas. Ingatlah… Tuhan akan membalas semua perbuatan manusia dengan adil.”</p>
+                        <p>Sayangnya, Arthur yang sudah dibutakan keserakahan tak mau mendengar sepatah kata pun. Pertengkaran pun pecah. Dalam luapan emosi, Arthur memukul adiknya hingga jatuh pingsan.</p>
+                        <p>Pada akhirnya, ia berhasil menguasai hampir seluruh warisan keluarga.</p>
+                        <p>Hari-hari berlalu. Arthur hidup bermewah-mewahan dari hasil keringat orang tuanya, sementara Thesia masih saja berusaha membujuk sang kakak agar mau berubah. Suatu malam, gadis itu kembali datang menemuinya.</p>
                     </div>
                     <span class="page-number">4</span>
                 </div>
             </div>
 
             <!-- Page 5-6 Text -->
-            <div class="page" style="z-index: 15;">
+            <div class="page" style="z-index: 27;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Arthur yang sedang mabuk tersulut emosi. “Heh! Jangan sok suci ngatur hidup gue!” bentaknya.</p>
-                        <p>Pertengkaran itu kembali berubah menjadi kekerasan. Dalam keadaan emosi yang tidak terkendali, Arthur memukul adiknya dengan keras. Tubuh Thesia jatuh ke lantai dan tidak bergerak lagi.</p>
-                        <p>Saat itulah Arthur menyadari sesuatu yang mengerikan. Adiknya telah meninggal.</p>
-                        <p>“A-aku… apa yang sudah kulakukan…?” gumamnya dengan suara gemetar.</p>
+                        <p>“Arthur… kau cuma menghabiskan harta jerih payah orang tua kita untuk hal yang tidak jelas. Ingatlah… Tuhan akan membalas setiap perbuatan manusia dengan adil.”</p>
+                        <p>Arthur yang sedang mabuk langsung tersulut emosi. “Heh! Jangan sok suci ngatur hidup gue!” bentaknya.</p>
+                        <p>Pertengkaran itu kembali berujung kasar. Di luar kendali, Arthur menghantam adiknya dengan keras. Tubuh Thesia jatuh terempas ke lantai dan tak lagi bergerak.</p>
+                        <p>Detik itu juga, amarah Arthur lenyap digantikan rasa ngeri yang luar biasa. Adiknya sudah tidak bernyawa.</p>
                     </div>
                     <span class="page-number">5</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Penyesalan datang terlambat.</p>
-                        <p>Arthur menangis berhari-hari. Dengan tangan gemetar, ia menguburkan jasad adiknya di taman belakang pada malam hari agar tidak ada orang yang mengetahui kejadian itu.</p>
-                        <p>Namun rasa bersalah terus menghantuinya. Sebulan setelah kejadian itu, Arthur tidak bisa lagi menahan tekanan dalam pikirannya. Ia merasa hidupnya sudah hancur.</p>
+                        <p>“A-aku… apa yang sudah kulakukan…?” gumamnya dengan suara bergetar.</p>
+                        <p>Namun, penyesalan selalu datang terlambat.</p>
+                        <p>Berhari-hari Arthur menangis meratapi perbuatannya. Dengan tangan gemetar ketakutan, ia menguburkan jasad adiknya diam-diam di taman belakang pada tengah malam agar tak seorang pun tahu.</p>
+                        <p>Akan tetapi, rasa bersalah terus menghantui pikirannya. Sebulan berlalu, tekanan batin itu makin mencekik hingga ia merasa hidupnya sudah hancur tak bersisa.</p>
                     </div>
                     <span class="page-number">6</span>
                 </div>
             </div>
 
             <!-- Page 7-8 Text -->
-            <div class="page" style="z-index: 14;">
+            <div class="page" style="z-index: 26;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Pada malam tanggal 17 Februari 2035, Arthur berdiri di tepi sebuah gedung pencakar langit. Angin malam berhembus kencang. Air mata mengalir di pipinya.</p>
+                        <p>Pada malam tanggal 17 Februari 2035, Arthur berdiri di tepi atap sebuah gedung pencakar langit. Angin malam berembus kencang, menyapu air mata yang mengalir di pipinya.</p>
                         <p>“Maafkan aku… Ayah… Ibu… Thesia…”</p>
-                        <p>Namun tepat sebelum ia melangkah, kilatan cahaya yang sangat terang muncul di langit. Arthur terkejut. Tubuhnya kehilangan keseimbangan dan ia pun jatuh dari gedung itu.</p>
+                        <p>Tepat sebelum kakinya melangkah maju, kilatan cahaya terang mendadak menyambar langit. Arthur tersentak kaget. Keseimbangannya hilang, dan tubuhnya pun jatuh meluncur dari gedung itu.</p>
                     </div>
                     <span class="page-number">7</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Saat tubuhnya melayang di udara, Arthur menatap langit malam yang gelap. Di tengah kegelapan itu, ia masih melihat bintang-bintang yang bersinar. Tubuhnya menghantam tanah.</p>
-                        <p>Hujan mulai turun deras membasahi tubuhnya. Tanggal 17 Februari 2035, Arthur Bolthen menghembuskan napas terakhirnya.</p>
-                        <p>Namun ketika ia membuka matanya kembali, ia tidak berada di dunia yang sama. Arthur terbangun di sebuah tempat kosong yang gelap—sebuah kehampaan yang terasa aneh.</p>
+                        <p>Saat tubuhnya melayang di udara, Arthur menatap langit malam yang pekat. Di tengah kegelapan itu, ia masih sempat melihat kerlip bintang bersinar sebelum tubuhnya menghantam kerasnya tanah.</p>
+                        <p>Hujan turun deras membasahi tubuhnya. Tanggal 17 Februari 2035, Arthur Bolthen mengembuskan napas terakhirnya.</p>
+                        <p>Namun, saat kembali membuka mata, ia tak lagi berada di dunia yang sama. Arthur terbangun di sebuah ruang kosong yang gelap gulita—sebuah kehampaan yang terasa ganjil.</p>
                     </div>
                     <span class="page-number">8</span>
                 </div>
             </div>
 
             <!-- Page 9-10 Text -->
-            <div class="page" style="z-index: 13;">
+            <div class="page" style="z-index: 25;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Tidak lama kemudian, dunia di sekelilingnya berubah. Hutan luas terbentang di hadapannya. Pohon-pohon tinggi menjulang dan hewan-hewan aneh berkeliaran. Arthur mengerutkan kening. “Apa… ini?”</p>
-                        <p>Ia sempat mengira dirinya berhalusinasi. Namun pikiran itu langsung terpatahkan ketika seekor serangga kecil menggigit tangannya. Rasa sakitnya nyata. Ini bukan mimpi.</p>
+                        <p>Tak lama kemudian, pemandangan di sekelilingnya berubah. Hutan luas terbentang di hadapannya, dipenuhi pohon-pohon tinggi menjulang dan hewan-hewan aneh yang berkeliaran bebas. Arthur mengerutkan kening. “Apa… ini?”</p>
+                        <p>Ia sempat mengira dirinya sedang berhalusinasi. Namun, pikiran itu langsung buyar ketika gigitan kecil seekor serangga menyengat tangannya. Rasa perihnya nyata. Ini bukan mimpi.</p>
+                        <p>Sehari kemudian, Arthur berjalan menyusuri hutan tanpa arah hingga melihat kibaran bendera di kejauhan. Saat mendekat, ia menemukan sebuah permukiman.</p>
                     </div>
                     <span class="page-number">9</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Sehari kemudian, Arthur berjalan menyusuri hutan tanpa tujuan hingga ia melihat sebuah bendera di kejauhan. Saat mendekat, ia menemukan sebuah pemukiman.</p>
-                        <p>Penduduk di sana memiliki telinga panjang dan tubuh ramping. Arthur langsung menyadarinya. “Mereka… elf?”</p>
-                        <p>Penduduk desa menyambut Arthur dengan ramah dan membawanya bertemu kepala suku. Dari merekalah Arthur mengetahui satu hal yang mengejutkan. Ia berada di dunia bernama Europhia.</p>
+                        <p>Penduduk di sana bertelinga panjang dengan tubuh ramping. Arthur langsung menyadarinya. “Mereka… elf?”</p>
+                        <p>Warga desa menyambut Arthur dengan ramah dan membawanya bertemu kepala suku. Dari merekalah Arthur mendengar kenyataan yang membuatnya terkejut. Ia kini berada di dunia bernama Rotozh.</p>
+                        <p>Nama itu tidak asing baginya. Justru sebaliknya, nama tersebut pernah menggemparkan seluruh media sosial di d’Chaten.</p>
+                        <p>Beberapa tahun sebelumnya, negara d’Chaten sempat dihebohkan oleh penemuan ilmiah besar yang dijuluki: “Dunia Baru – Rotozh.”</p>
                     </div>
                     <span class="page-number">10</span>
                 </div>
             </div>
 
             <!-- Page 11-12 Text -->
-            <div class="page" style="z-index: 12;">
+            <div class="page" style="z-index: 24;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Nama itu tidak asing bagi Arthur. Justru sebaliknya. Nama itu pernah menggemparkan seluruh media sosial di d’Chaten.</p>
-                        <p>Beberapa tahun sebelumnya, negara d’Chaten sempat dihebohkan oleh sebuah penemuan ilmiah yang dijuluki: “Dunia Baru – Europhia Prime.”</p>
-                        <p>Pada tahun 2019, para ilmuwan menemukan sesuatu yang sangat aneh di dalam sebuah komet yang jatuh ke Bumi. Di dalam komet itu terdapat sebuah bakteri yang sangat berbeda dari semua organisme yang pernah ditemukan di Bumi.</p>
+                        <p>Kisahnya bermula pada tahun 2019, saat para ilmuwan menemukan sesuatu yang aneh di dalam sebongkah komet yang jatuh ke Bumi. Di dalamnya terdapat sejenis bakteri yang strukturnya sangat berbeda dari seluruh organisme yang pernah ditemukan di Bumi.</p>
+                        <p>Setelah diteliti lebih lanjut, para ilmuwan memastikan satu hal mengejutkan: bakteri itu bukan berasal dari Bumi.</p>
+                        <p>Berbagai perhitungan ilmiah dilakukan selama bertahun-tahun. Namun, hingga batas kemampuan sains manusia saat itu, tak ada satu pun yang sanggup menjelaskan dari mana bakteri tersebut berasal.</p>
                     </div>
                     <span class="page-number">11</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Setelah diteliti lebih lanjut, para ilmuwan memastikan satu hal yang mengejutkan. Bakteri itu bukan berasal dari Bumi.</p>
-                        <p>Berbagai perhitungan ilmiah dilakukan selama bertahun-tahun. Namun hingga mencapai batas kemampuan ilmu pengetahuan manusia, tidak ada yang mampu menjelaskan dari mana bakteri tersebut berasal.</p>
-                        <p>Banyak ilmuwan akhirnya menyerah dan menghentikan penelitian mereka. Namun ada satu orang yang tidak menyerah. Seorang ilmuwan bernama Erick Bolthen.</p>
+                        <p>Banyak ilmuwan akhirnya menyerah dan menghentikan penelitian mereka. Namun, ada satu orang yang menolak berhenti.</p>
+                        <p>Ia terus meneliti bakteri itu selama berbulan-bulan, menghitung setiap kemungkinan dengan sangat teliti. Dua tahun berselang, kerja kerasnya membuahkan hasil luar biasa.</p>
+                        <p>Menurut perhitungannya, bakteri itu berasal dari tempat yang berjarak jutaan tahun cahaya dari Bumi. Lewat berbagai simulasi dan analisis, ia menarik sebuah kesimpulan yang mengguncang dunia sains.</p>
                     </div>
                     <span class="page-number">12</span>
                 </div>
             </div>
 
             <!-- Page 13-14 Text -->
-            <div class="page" style="z-index: 11;">
+            <div class="page" style="z-index: 23;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Ia terus meneliti bakteri tersebut selama berbulan-bulan, menghitung berbagai kemungkinan dengan sangat teliti. Dua tahun kemudian, ia akhirnya menemukan sesuatu yang luar biasa.</p>
-                        <p>Menurut perhitungannya, bakteri itu berasal dari tempat yang berjarak jutaan tahun cahaya dari Bumi. Setelah melakukan berbagai simulasi dan analisis, ia menarik sebuah kesimpulan yang sangat kontroversial.</p>
-                        <p>Bakteri itu terbawa oleh black hole atau lubang cacing, fenomena kosmik yang memungkinkan benda berpindah tempat dengan kecepatan cahaya.</p>
+                        <p>Bakteri itu terbawa oleh black hole atau lubang cacing—fenomena kosmik yang memungkinkan benda berpindah tempat dengan kecepatan mendekati cahaya.</p>
+                        <p>Jurnal penelitian itu dipublikasikan pada 17 November 2022. Bukannya mendapat dukungan, banyak ilmuwan lain justru menertawakannya. “Mendekati kecepatan cahaya? Mustahil,” cibir mereka.</p>
+                        <p>Ilmuwan itu hanya menjawab tenang. “Benar. Benda bermassa tidak mungkin menyamai kecepatan cahaya. Tapi, bagaimana jika benda itu mampu memanipulasi massanya sendiri?”</p>
                     </div>
                     <span class="page-number">13</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Jurnal penelitian itu dipublikasikan pada 17 November 2022. Namun bukannya mendapat dukungan, banyak ilmuwan lain justru menertawakannya. “Mendekati kecepatan cahaya? Mustahil,” kata mereka.</p>
-                        <p>Erick hanya menjawab dengan tenang. “Benar. Benda bermassa tidak mungkin menyamai kecepatan cahaya. Namun bagaimana jika benda itu mampu memanipulasi massanya sendiri?”</p>
-                        <p>Para ilmuwan lain terdiam. Erick kembali menjelaskan bahwa bakteri ini memiliki kemampuan memanipulasi massanya hingga mendekati nol.</p>
+                        <p>Para ilmuwan lain terdiam. Ilmuwan itu lalu menjelaskan bahwa bakteri ini punya kemampuan menekan massanya sendiri hingga nyaris mendekati nol.</p>
+                        <p>Penemuan itu menjadi awal era baru di d’Chaten yang dikenal sebagai Golden Era. Dan ilmuwan yang menemukan teori tersebut adalah… Erick Bolthen. Ayahnya sendiri.</p>
+                        <p>Lamunan Arthur buyar. Ia masih berdiri mematung di tengah permukiman elf dengan wajah tak percaya. “Jadi… ini benar-benar dunia itu…” gumamnya.</p>
                     </div>
                     <span class="page-number">14</span>
                 </div>
             </div>
 
             <!-- Page 15-16 Text -->
-            <div class="page" style="z-index: 10;">
+            <div class="page" style="z-index: 22;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Penemuan itu menjadi awal dari era baru di d’Chaten yang dikenal sebagai Golden Era. Dan nama ilmuwan yang menemukan teori tersebut adalah… Erick Bolthen.</p>
-                        <p>Kembali ke Arthur. Ia masih berdiri di tengah pemukiman elf dengan wajah penuh keterkejutan. “Jadi… ini benar-benar dunia itu…” gumamnya.</p>
-                        <p>Jika dunia ini benar-benar Europhia Prime, maka satu hal menjadi jelas. Segala sesuatu yang mustahil di Bumi… mungkin saja terjadi di sini.</p>
+                        <p>Jika tempat ini memang Rotozh, maka semuanya masuk akal. Segala sesuatu yang mustahil di Bumi… bisa saja terjadi di sini.</p>
+                        <p>Arthur melihat pemandangan yang membuatnya membeku. Beberapa elf di desa itu terbang bebas di udara tanpa sayap, tanpa alat bantu apa pun. Mereka melayang ringan seperti daun yang tertiup angin.</p>
+                        <p>Tak bisa menahan rasa penasaran, Arthur menoleh pada kepala suku. “Bagaimana mereka bisa melakukan itu?”</p>
                     </div>
                     <span class="page-number">15</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Arthur melihat sesuatu yang membuatnya membeku. Beberapa elf di desa itu terbang di udara. Tanpa sayap. Tanpa alat bantu. Mereka hanya melayang ringan seperti daun yang tertiup angin.</p>
-                        <p>Arthur tidak bisa menahan rasa penasarannya. Ia menoleh pada kepala suku. “Bagaimana mereka bisa melakukan itu?”</p>
-                        <p>Kepala suku tersenyum tipis. “Tidak heran dirimu terkejut. Di dunia ini, semua benda memiliki kemampuan memanipulasi massa mereka. Kami menyebutnya Mass Zone.”</p>
+                        <p>Kepala suku tersenyum tipis. “Wajar kalau kau terkejut. Di dunia ini, semua benda punya kemampuan memanipulasi massanya. Kami menyebutnya Mass Zone.”</p>
+                        <p>“Setiap makhluk memiliki zona tempat ia bisa memengaruhi massa benda di sekitarnya. Jika seseorang mampu memahami konsep dunia ini, ia bisa mengontrol apa pun yang berada di dalam zonanya.”</p>
+                        <p>Arthur terdiam. Penjelasan itu terasa begitu familiar—persis seperti catatan riset yang dulu pernah dikerjakan ayahnya. Perlahan, air mata mulai mengalir membasahi pipinya.</p>
                     </div>
                     <span class="page-number">16</span>
                 </div>
             </div>
 
             <!-- Page 17-18 Text -->
-            <div class="page" style="z-index: 9;">
+            <div class="page" style="z-index: 21;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>“Setiap makhluk memiliki zona tempat ia bisa mempengaruhi massa benda di sekitarnya. Jika seseorang mampu memahami konsep dunia ini, ia dapat mengontrol apa pun yang berada di zonanya.”</p>
-                        <p>Arthur terdiam. Penjelasan itu terasa sangat familiar baginya. Persis seperti riset yang pernah dilakukan ayahnya. Perlahan, air mata mulai mengalir di wajah Arthur.</p>
-                        <p>Ia teringat semua kesalahan yang pernah dilakukan. Ia mengabaikan ayahnya. Ia menghamburkan warisan keluarganya. Dan yang paling menyakitkan… Ia telah membunuh adiknya sendiri.</p>
+                        <p>Ia teringat semua kesalahan di masa lalu. Ia mengabaikan ayahnya. Ia menghamburkan warisan keluarga. Dan yang paling menyakitkan… ia telah membunuh adiknya sendiri.</p>
+                        <p>Arthur menundukkan kepala sambil menangis. “Jika ini memang kesempatan kedua…” bisiknya pelan.</p>
+                        <p>Ia menatap langit dunia asing itu. “Tuhan… aku menyesal. Aku ingin menebus semuanya… di sini.”</p>
                     </div>
                     <span class="page-number">17</span>
                 </div>
                 <div class="page-side page-back">
+                    <h2 class="chapter-title">BAB II</h2>
+                    <p class="chapter-subtitle">Sang Senja Berubah Menjadi Bulan Penuh Darah</p>
                     <div class="content">
-                        <p>Arthur menundukkan kepalanya sambil menangis. “Jika ini benar-benar kesempatan kedua…” bisiknya pelan.</p>
-                        <p>Ia menatap langit dunia asing itu. “Tuhan… aku menyesal. Aku ingin memperbaiki semuanya… di sini.”</p>
-                        <hr style="margin: 40px 0; border: none; border-top: 2px double var(--gold-accent);">
-                        <h2 class="chapter-title">BAB 2</h2>
-                        <p class="chapter-subtitle">Sang Senja Berubah Menjadi Bulan Penuh Darah</p>
+                        <p>Beberapa bulan telah berlalu sejak Arthur tinggal bersama klan elf. Selama waktu itu, ia tekun belajar mengendalikan Mass Zone.</p>
+                        <p>Selain berlatih, Arthur juga membantu para elf membangun berbagai fasilitas desa, termasuk jembatan besar yang menghubungkan dua gunung agar jalur perdagangan lebih mudah.</p>
                     </div>
                     <span class="page-number">18</span>
                 </div>
             </div>
 
             <!-- Page 19-20 Text -->
-            <div class="page" style="z-index: 8;">
+            <div class="page" style="z-index: 20;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Beberapa bulan telah berlalu sejak Arthur tinggal bersama klan elf. Selama waktu itu, ia belajar tentang konsep Mass Zone.</p>
-                        <p>Arthur juga membantu para elf membangun berbagai hal, termasuk jembatan besar yang menghubungkan dua gunung agar jalur perdagangan lebih mudah.</p>
-                        <p>Namun Arthur tidak pernah melupakan tujuan utamanya. Ia ingin kembali ke Bumi.</p>
+                        <p>Namun, Arthur tak pernah melupakan tujuan utamanya: menemukan cara untuk kembali ke Bumi.</p>
+                        <p>Suatu hari, setelah berpamitan pada kepala suku elf, Arthur memutuskan untuk kembali berkelana. “Aku berutang banyak pada kalian,” ucapnya tulus.</p>
+                        <p>Kepala suku elf tersenyum. “Pergilah. Dunia ini luas, masih banyak hal yang belum kau lihat.”</p>
+                        <p>Arthur pun meninggalkan desa itu. Namun di hari yang sama, konflik baru mulai muncul di wilayah hutan elf. Kekacauan itu bermula dari ulah klan Minotaur.</p>
                     </div>
                     <span class="page-number">19</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Suatu hari, setelah berpamitan dengan kepala suku elf, Arthur memutuskan untuk kembali berkelana. “Aku berhutang banyak pada kalian,” ucapnya.</p>
-                        <p>Kepala suku elf tersenyum. “Pergilah. Dunia ini luas. Masih banyak yang belum kau lihat.”</p>
-                        <p>Arthur pun meninggalkan desa itu. Namun di hari yang sama, konflik baru muncul di wilayah hutan elf. Konflik itu bermula dari klan Minotaur.</p>
+                        <p>Makhluk bertubuh raksasa dengan kepala mirip banteng itu sering menerobos hutan elf dan merusak tanaman mereka.</p>
+                        <p>Seorang gadis elf berusia enam belas tahun mencoba menghentikan mereka. Sayangnya, keputusan itu justru mengundang bahaya. Seekor minotaur muncul dari balik hutan dan langsung menyerangnya.</p>
+                        <p>Tubuh makhluk itu besar dan berotot, lengkap dengan kuku tajam serta napas berat seperti binatang buas.</p>
                     </div>
                     <span class="page-number">20</span>
                 </div>
             </div>
 
             <!-- Page 21-22 Text -->
-            <div class="page" style="z-index: 7;">
+            <div class="page" style="z-index: 19;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Makhluk bertubuh besar dengan kepala seperti banteng itu sering melewati wilayah hutan elf dan merusak tanaman mereka.</p>
-                        <p>Putra raja elf yang berusia enam belas tahun mencoba menghentikan mereka. Namun keputusan itu membawa masalah. Seorang minotaur muncul di hutan dan menyerangnya.</p>
-                        <p>Tubuh makhluk itu besar dan berotot, dengan kuku tajam dan napas berat seperti binatang buas.</p>
+                        <p>Gadis elf itu mulai terpojok. Di tempat lain, Arthur yang kebetulan melintas di hutan mendengar keributan pertarungan tersebut. Awalnya ia tidak ingin ikut campur.</p>
+                        <p>Namun, begitu melihat seorang elf muda hampir terbunuh, bayangan wajah adiknya langsung terlintas di benaknya. Arthur menggenggam erat tongkat kayu yang selalu ia bawa.</p>
+                        <p>“Aku tidak akan membiarkan ini terjadi lagi!” Ia melompat ke atas dahan pohon dan mengaktifkan Mass Zone miliknya.</p>
                     </div>
                     <span class="page-number">21</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Putra raja elf mulai terpojok. Di tempat lain, Arthur yang sedang melewati hutan mendengar suara pertempuran. Awalnya ia tidak ingin ikut campur.</p>
-                        <p>Namun ketika ia melihat seorang elf muda hampir terbunuh, ia teringat pada adiknya. Arthur menggenggam tongkat kayu yang selalu ia bawa.</p>
-                        <p>“Aku tidak akan membiarkan ini terjadi lagi…” Ia melompat ke atas pohon dan mengaktifkan Mass Zone miliknya.</p>
+                        <p>Sebuah bola transparan muncul menyelimuti tubuhnya. Dari atas pohon, Arthur langsung menyerang. Ia memanipulasi massa pepohonan di sekitarnya, membuat batang kayu besar meluncur menghantam minotaur itu.</p>
+                        <p>Namun, tubuh minotaur tersebut terlalu kuat. Serangan keras itu hanya membuatnya mundur beberapa langkah. Arthur mulai berkeringat dingin. “Gawat… kekuatannya jauh di atasku…”</p>
+                        <p>Minotaur itu mendongak menatap Arthur dengan marah. Kini, perhatian makhluk buas itu sepenuhnya tertuju padanya.</p>
                     </div>
                     <span class="page-number">22</span>
                 </div>
             </div>
 
             <!-- Page 23-24 Text -->
-            <div class="page" style="z-index: 6;">
+            <div class="page" style="z-index: 18;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Sebuah bola transparan muncul di sekeliling tubuhnya. Arthur mulai menyerang dari atas pohon. Ia memanipulasi massa pohon dan membuat batang besar menghantam minotaur.</p>
-                        <p>Namun tubuh minotaur itu terlalu kuat. Serangan itu hanya membuatnya mundur sedikit. Arthur mulai berkeringat. “Gawat… kekuatannya jauh di atasku…”</p>
-                        <p>Minotaur itu menatap Arthur dengan marah. Kini perhatian makhluk itu sepenuhnya tertuju pada Arthur.</p>
+                        <p>Pertarungan yang sesungguhnya baru saja dimulai. Arthur perlahan turun kembali ke tanah setelah serangan terakhirnya tadi.</p>
+                        <p>Namun, tiba-tiba tubuhnya terasa aneh. Tenaganya mendadak terkuras habis. Kakinya gemetar, dan sekujur badannya terasa sangat lemas.</p>
+                        <p>“Ada apa dengan tubuhku…?” gumam Arthur sambil memegangi perutnya. “Kenapa tiba-tiba lemas begini? Apa ini efek samping menggunakan Mass Zone?”</p>
+                        <p>Merasa dalam bahaya, Arthur mundur beberapa langkah. Ia menancapkan ujung tongkatnya ke tanah. DUGG! Tanah di sekitarnya bergetar halus.</p>
                     </div>
                     <span class="page-number">23</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Pertarungan yang sebenarnya… baru saja dimulai. Arthur perlahan kembali menurunkan tubuhnya ke tanah setelah serangan terakhirnya.</p>
-                        <p>Namun tiba-tiba sesuatu terasa aneh. Tenaganya mendadak hilang. Kakinya gemetar. Tubuhnya terasa sangat lemas.</p>
-                        <p>“Ada apa dengan tubuhku…?” gumam Arthur pelan sambil memegang perutnya. “Kenapa tiba-tiba begini? Apa ini efek samping menggunakan Mass Zone?”</p>
+                        <p>Getaran itu menyebar perlahan seperti riak di permukaan air. Arthur memejamkan mata sejenak, memusatkan konsentrasinya.</p>
+                        <p>Kemudian ia mengangkat tongkatnya dan berteriak, “Dengan ini… kuciptakan pelindung dari bilah tanah!” Getaran di bawah kakinya mendadak berkumpul.</p>
+                        <p>Tanah di depan Arthur terangkat naik. Sebuah perisai raksasa terbentuk dari lapisan tanah yang memadat keras dengan duri-duri tajam di sekelilingnya.</p>
                     </div>
                     <span class="page-number">24</span>
                 </div>
             </div>
 
             <!-- Page 25-26 Text -->
-            <div class="page" style="z-index: 5;">
+            <div class="page" style="z-index: 17;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Merasa dalam bahaya, Arthur mundur beberapa langkah. Ia menancapkan tongkatnya ke tanah. DUGG. Tanah di sekitarnya bergetar halus.</p>
-                        <p>Getaran itu menyebar perlahan seperti riak di permukaan air. Arthur menutup matanya sejenak. Ia sedang mempersiapkan sesuatu.</p>
-                        <p>Kemudian ia mengangkat tongkatnya dan berteriak, “Dengan ini… ku ciptakan pelindung dari bilah tanah!” Getaran di tanah tiba-tiba berkumpul.</p>
+                        <p>Arthur lalu melanjutkan, “Dan angin… bergeraklah mengikuti arah embusanku!” Angin di sekitar hutan mulai berputar kencang, memperkuat pertahanan perisai tersebut.</p>
+                        <p>Perisai itu sangat keras dan padat karena Arthur menerapkan prinsip getaran frekuensi rapat melalui tongkatnya.</p>
+                        <p>Minotaur yang berdiri di seberang mengerutkan wajah kebingungan. “Bagaimana mungkin…? Kenapa manusia ini bisa menciptakan materi yang tidak ada di dunia ini?”</p>
                     </div>
                     <span class="page-number">25</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Tanah di depan Arthur terangkat. Sebuah perisai raksasa terbentuk dari tanah yang memadat dengan duri tajam di sekelilingnya.</p>
-                        <p>Arthur lalu melanjutkan, “Dan angin… bergeraklah mengikuti apa yang mereka hembuskan!” Angin di sekitar hutan mulai berputar memperkuat perisai.</p>
-                        <p>Perisai tersebut sangat keras dan padat karena Arthur menerapkan prinsip getaran frekuensi rapat melalui tongkatnya.</p>
+                        <p>Rasa penasaran mengalahkan amarahnya. Minotaur itu menghantam perisai tersebut dengan kedua tangannya. BOOM! Namun, perisai itu tidak bergeming sedikit pun.</p>
+                        <p>Minotaur itu menatap Arthur. “Hei, kau! Bagaimana cara kau menciptakan benda seperti itu? Jangan-jangan… kau ini sebuah anomali?”</p>
+                        <p>Arthur yang masih bertumpu pada tongkatnya berusaha menahan lemas. Napasnya berat, tapi ia tetap menatap minotaur itu dengan tenang.</p>
                     </div>
                     <span class="page-number">26</span>
                 </div>
             </div>
 
             <!-- Page 27-28 Text -->
-            <div class="page" style="z-index: 4;">
+            <div class="page" style="z-index: 16;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Minotaur yang berdiri di seberang mengerutkan wajahnya kebingungan. “Bagaimana mungkin…? Kenapa manusia ini bisa menciptakan materi yang tidak ada di dunia ini?”</p>
-                        <p>Rasa penasaran mengalahkan amarahnya. Minotaur itu memukul perisai tersebut dengan kedua tangannya. BOOM! Namun perisai itu tidak bergeming.</p>
-                        <p>Minotaur itu menatap Arthur. “Hei, kau! Bagaimana kau bisa menciptakan benda seperti itu? Jangan bilang… kau ini sebuah anomali?”</p>
+                        <p>“Kau ingin tahu kenapa aku bisa melakukan ini? Kalau begitu… sebelum aku menjawabnya, kau harus memberitahuku sesuatu. Apa sebenarnya yang terjadi di dunia ini?” tanya Arthur.</p>
+                        <p>Minotaur itu terdiam sejenak. Wajahnya tampak kesal, tapi rasa ingin tahunya jauh lebih besar.</p>
+                        <p>Akhirnya ia menghela napas berat. “Baiklah, akan kuceritakan. Di dunia ini terdapat berbagai ras dan golongan.”</p>
+                        <p>Ia menunjuk dadanya sendiri. “Aku adalah Minotaur. Ras unggulan dengan kekuatan fisik luar biasa.”</p>
                     </div>
                     <span class="page-number">27</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>Arthur yang masih menggenggam tongkatnya mencoba menahan lemas. Napasnya berat. Namun ia tetap menatap minotaur itu dengan tenang.</p>
-                        <p>“Kau ingin tahu kenapa aku bisa melakukan ini? Kalau begitu… sebelum aku menjawabnya, kau harus memberitahuku sesuatu.”</p>
-                        <p>“Apa sebenarnya yang terjadi di dunia ini?” kata Arthur. Minotaur itu terdiam sejenak. Wajahnya tampak kesal namun rasa ingin tahunya besar.</p>
+                        <p>“Ada juga Elf. Mereka terkenal karena kecerdasan dan kekuatan sihirnya. Lalu ada Manusia—ras paling licik yang pandai memonopoli perdagangan.”</p>
+                        <p>“Dwarf, para penambang ulung. Mereka menggali material langka dan menempa armor untuk hampir semua ras.”</p>
+                        <p>“Dan terakhir… Sanctur. Makhluk setengah manusia setengah kuda yang sangat pandai bersembunyi dan ahli memanah.”</p>
+                        <p>Minotaur itu menatap Arthur tajam. “Sekarang jawab pertanyaanku. Kenapa kau ingin tahu hal dasar yang bahkan anak kecil di dunia ini sudah tahu?”</p>
                     </div>
                     <span class="page-number">28</span>
                 </div>
             </div>
 
             <!-- Page 29-30 Text -->
-            <div class="page" style="z-index: 3;">
+            <div class="page" style="z-index: 15;">
                 <div class="page-side page-front">
                     <div class="content">
-                        <p>Akhirnya ia menghela napas berat. “Baiklah. Akan kuceritakan. Di dunia ini terdapat berbagai ras dan golongan.”</p>
-                        <p>Ia menunjuk dirinya sendiri. “Aku adalah Minotaur. Ras unggulan dengan kekuatan fisik luar biasa.”</p>
-                        <p>“Ada juga Elf. Mereka terkenal karena kecerdasan dan kekuatan magis. Lalu ada manusia. Ras paling licik. Mereka pandai memonopoli perdagangan.”</p>
+                        <p>Arthur berbisik pelan, “Bisa dibilang aku adalah sebuah error, bukan bagian dari dunia ini.”</p>
+                        <p>Minotaur yang terkejut sontak kembali menghantam perisai itu—kali ini dengan bantuan armor buatan para dwarf serta kemampuan Mass Zone unik milik fraksinya. Dengan tangan yang dilapisi Mass Zone, ia menerjang maju ke hadapan perisai Arthur.</p>
+                        <p>TRING!</p>
                     </div>
                     <span class="page-number">29</span>
                 </div>
                 <div class="page-side page-back">
                     <div class="content">
-                        <p>“Dwarf, para penambang ulung. Mereka menggali material langka dan membuat armor untuk hampir semua ras.”</p>
-                        <p>“Dan terakhir… Sanctur. Makhluk setengah manusia setengah kuda. Sangat pandai bersembunyi dan ahli memanah.”</p>
-                        <p>Minotaur itu menatap Arthur tajam. “Sekarang jawab pertanyaanku. Kenapa kau ingin tahu hal yang bahkan anak kecil di dunia ini sudah tahu?”</p>
-                        <p style="text-align: center; margin-top: 50px; font-weight: bold; color: #8b0000;">BERSAMBUNG...</p>
+                        <p>Perisai Arthur lenyap seketika. Efek Mass Zone milik Minotaur mampu membalikkan massa. Jika pada dasarnya semua elemen memiliki massa, maka semua elemen juga bisa merasakan beban massa satu sama lain. Kini, Arthur menerima balik seluruh rasa sakit yang menghantam perisai getarannya tadi.</p>
+                        <p>Kuda-kuda Arthur goyah. Tangan besi Minotaur mendarat sekali lagi tepat di perut Arthur hingga tongkat kayunya terlempar jatuh.</p>
+                        <p>BRUKK!</p>
                     </div>
                     <span class="page-number">30</span>
+                </div>
+            </div>
+
+            <!-- Page 31-32 Text -->
+            <div class="page" style="z-index: 14;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Arthur ambruk menghadap tanah. Tubuhnya lemas tak berdaya. Melihat lawannya tak lagi sanggup melawan, Minotaur itu langsung mencengkeram leher Arthur.</p>
+                    </div>
+                    <span class="page-number">31</span>
+                </div>
+                <div class="page-side page-back">
+                    <h2 class="chapter-title">BAB III</h2>
+                    <p class="chapter-subtitle">Getaran di Balik Batas Kemampuan</p>
+                    <div class="content">
+                        <p>Saat cengkeraman Minotaur mencekik lehernya, berbagai pikiran langsung berkecamuk di dalam benak Arthur. Layaknya manusia biasa, rasa gentar sempat muncul. Tubuhnya bergetar, sementara tenaganya mulai habis.</p>
+                    </div>
+                    <span class="page-number">32</span>
+                </div>
+            </div>
+
+            <!-- Page 33-34 Text -->
+            <div class="page" style="z-index: 13;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>“Kau memang kuat, Minotaur. Tapi ingat, tak semua hal di dunia ini harus berlandaskan kekuatan,” ucap Arthur sambil memegang jari-jari besar yang mencengkeram lehernya dengan sisa tenaga. Suaranya terkekeh pelan.</p>
+                        <p>Di sela-sela jari kanan Minotaur sudah terselip bilah kayu tajam, siap menerkam Arthur kapan saja. Melihat itu, Arthur segera mengeluarkan lingkaran Mass Zone miliknya. Jarak satu meter antara mereka dengan pohon tempat Arthur terjatuh langsung tertutupi selaput tipis.</p>
+                    </div>
+                    <span class="page-number">33</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Naas, tepat saat ia hendak melepaskan getaran berfrekuensi tinggi, sekujur tubuhnya justru bergetar hebat karena kelelahan. Melihat lawannya tak berdaya, Minotaur itu langsung mengayunkan bilah kayunya ke arah pelipis Arthur untuk mengakhiri pertarungan.</p>
+                    </div>
+                    <span class="page-number">34</span>
+                </div>
+            </div>
+
+            <!-- Page 35-36 Text -->
+            <div class="page" style="z-index: 12;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Namun, tepat saat kayu runcing itu berada sejengkal dari pelipisnya, embusan angin kencang mendadak menderu dari arah selatan. Konsentrasi sang Minotaur buyar; kayu di tangannya terlepas dan jatuh tepat di bawah kaki Arthur. Sumber suara angin itu terdengar sekitar lima ratus meter dari tempat mereka bertarung.</p>
+                        <p>“Suara apa itu? Bagaimana mungkin di tengah hutan ini ada embusan angin sekencang itu?” kata Minotaur sambil menoleh ke arah datangnya suara.</p>
+                    </div>
+                    <span class="page-number">35</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Memanfaatkan kelengahan lawannya, dengan sigap Arthur kembali mengaktifkan Mass Zone. Tanah berguncang hebat, angin bertiup kencang, dan selaput tipis kembali muncul di antara dedaunan mengepung area mereka. Minotaur memincingkan mata, tak menyangka Arthur masih sanggup menggunakan teknik itu sekali lagi.</p>
+                        <p>“Percuma saja! Kau bahkan sudah gagal ta—”</p>
+                    </div>
+                    <span class="page-number">36</span>
+                </div>
+            </div>
+
+            <!-- Page 37-38 Text -->
+            <div class="page" style="z-index: 11;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Arthur mengabaikan perkataan itu. Ia fokus menata mantra yang ingin diucapkan. Dengan tekad bulat, ia merapal kata demi kata hingga berhasil memicu getaran berfrekuensi sangat tinggi—berdesing tajam layaknya mata gergaji yang siap mencincang apa pun.</p>
+                        <p>WHOSSS!</p>
+                        <p>“A-apa?!”</p>
+                        <p>Minotaur terbelalak menatap tangan kirinya yang sedari tadi menggenggam Arthur.</p>
+                    </div>
+                    <span class="page-number">37</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Serangan itu menebas putus empat jari kiri sang Minotaur. Darah segar mengalir deras dari ujung jarinya. “AHHHHH—!” teriak Minotaur kesakitan.</p>
+                        <p>“Kau pasti bertanya-tanya bagaimana ini bisa terjadi, kan? Kau lupa kalau kemampuan sejati elf adalah mengekstraksi hukum alam itu sendiri.” Arthur menatap tajam ke arah musuhnya. “Betapa naif dirimu, wahai makhluk angkuh. Kau melupakan hal paling mendasar dari alam. Layaknya tumbuhan, aku bisa mengekstraksi energi matahari dan mengubahnya menjadi tenaga sesaat untuk mengeluarkan Mass Zone milikku.”</p>
+                    </div>
+                    <span class="page-number">38</span>
+                </div>
+            </div>
+
+            <!-- Page 39-40 Text -->
+            <div class="page" style="z-index: 10;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Amarah Minotaur langsung memuncak. Dengan tatapan buas, ia menerjang ke depan mengayunkan cakar tajamnya layaknya binatang terluka.</p>
+                        <p>TRANG! TRANG!</p>
+                        <p>Dua puluh menit berlalu dalam pertarungan sengit yang saling membalas serangan. Tongkat Arthur kembali memancarkan getaran kuat, kali ini dengan frekuensi melebar yang membentuk dinding pertahanan kokoh tak tertembus. Batu besar yang dilemparkan dari sisi kanan langsung pecah berkeping-keping begitu menyentuh perisai tersebut.</p>
+                    </div>
+                    <span class="page-number">39</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Tak kehabisan akal, Minotaur mencoba mendobrak langsung dari arah tengah. Ia melompat menghadap Arthur, mengepalkan kedua tangannya erat-erat, bersiap menghantam untuk melemahkan perisai getaran milik Arthur.</p>
+                        <p>BUKKKK! Benturan keras mengguncang tanah di bawah kaki mereka. Perisai getaran Arthur mulai menyempit, tak sekuat tadi. Namun, kondisi sang Minotaur jauh lebih parah: empat jari di tangan kirinya sudah lenyap, telapak tangannya penuh luka robek, dan darah bercucuran dari mulut serta dahinya.</p>
+                        <p>“Ini kesempatanku!” batin Arthur.</p>
+                    </div>
+                    <span class="page-number">40</span>
+                </div>
+            </div>
+
+            <!-- Page 41-42 Text -->
+            <div class="page" style="z-index: 9;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Ia segera memasang kuda-kuda rendah, bersiap menerjang maju. Ujung tongkatnya dihunjamkan ke tanah, mengubah gelombang frekuensi lebar tadi menjadi frekuensi menyempit dan tajam. Senjata itu kini meruncing panjang, mirip seperti pedang Excalibur dalam film-film fantasi.</p>
+                        <p>Arthur melesat cepat. “TERIMA INI!” teriaknya sambil melayangkan tongkat tersebut lurus ke arah leher Minotaur.</p>
+                        <p>Refleks bertahan hidup membuat Minotaur langsung menyilangkan kedua tangannya untuk melindungi leher. SLASHH—! Kedua pergelangan tangan monster itu terpotong!</p>
+                    </div>
+                    <span class="page-number">41</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>“Berhasil,” desis Arthur yang memang sudah menebak lawannya akan menangkis dengan kedua tangan.</p>
+                        <p>“KEPARAT! TUNGGU SAJA PEMBALASANKU!”</p>
+                        <p>Darah mengucur deras membasahi tanah tempat banteng sok jago itu berpijak. Tanpa pikir panjang, Minotaur itu berbalik dan lari masuk ke dalam hutan, menjauh dari arah sumber embusan angin kencang tadi.</p>
+                    </div>
+                    <span class="page-number">42</span>
+                </div>
+            </div>
+
+            <!-- Page 43-44 Text -->
+            <div class="page" style="z-index: 8;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>“Syukurlah…” keluh Arthur sembari menahan rasa sakit di sekujur tubuhnya. Untungnya elf muda tadi menguasai Teknik Penyembuhan Tingkat I. Cukup untuk menyembuhkan luka-luka ringanku. “Terima kasih atas bantuannya,” ucapnya pelan.</p>
+                    </div>
+                    <span class="page-number">43</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>“Tak apa, tahan sedikit, ini akan terasa hangat. Aku Elysa, putri dari penasihat desa,” katanya ramah sambil mengobati Arthur. Tangannya dijulurkan, kedua telapak tangannya disatukan membentuk segitiga. Elysa mulai merapalkan mantra, “Di antara dedaunan yang rindang, di antara lautan yang luas, di antara langit yang membentang, bawakan berkat pemulihan kepada semua yang kau kehendaki.”</p>
+                        <p>Perlahan, luka-luka Arthur mulai pulih.</p>
+                        <p>Tiba-tiba, angin berembus kencang menyapu pepohonan. WHUSSSS!</p>
+                    </div>
+                    <span class="page-number">44</span>
+                </div>
+            </div>
+
+            <!-- Page 45-46 Text -->
+            <div class="page" style="z-index: 7;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Kawanan gagak terbang panik menjauh, disusul tanah yang berguncang hebat.</p>
+                        <p>“Apa yang terjadi?” tanya Arthur kepada Elysa.</p>
+                        <p>“Nampaknya… sudah dimulai,” jawab Elysa dengan wajah serius yang membuat Arthur bingung.</p>
+                    </div>
+                    <span class="page-number">45</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Tak sempat menjelaskan lebih jauh, Elysa segera membawa Arthur menjauh dari lokasi pertempuran. Dari kejauhan, tepat di atas pepohonan rindang, terlihat dua orang sedang bertarung sengit di udara. Keduanya mengenakan baju zirah tebal bercorak keemasan, berumur sekitar empat puluh tahun. Mereka melayang ringan bak layang-layang dan saling menyambar seperti elang. Jelas itu bukan kemampuan biasa; bahkan para elf ulung pun kesulitan menjaga keseimbangan di ketinggian seperti itu sambil bertempur.</p>
+                        <p>“Siapa mereka?” bisik Arthur pelan sambil menarik baju Elysa.</p>
+                    </div>
+                    <span class="page-number">46</span>
+                </div>
+            </div>
+
+            <!-- Page 47-48 Text -->
+            <div class="page" style="z-index: 6;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>“Sang Agung, Ophinner,” jawab Elysa seraya menunjuk ke arah dua orang di udara itu. “Di dunia ini, tepatnya Europhia, dua ribu tahun lalu pernah terjadi perang besar yang melibatkan lima fraksi: Manusia, Elf, Sanctur, Minotaur, dan Dwarf. Perang itu dipicu oleh invasi dari benua asing, Arantara.”</p>
+                        <p>Kebingungan, Arthur bertanya kepada Elysa, “Mengapa invasi itu dilakukan?”</p>
+                        <p>Elysa menatap dingin Arthur seolah kejadian itu merupakan mimpi buruk bagi seluruh benua Europhia. “Kau pasti tahu kan lima fraksi dan Mass Zone?” tanya Elysa.</p>
+                    </div>
+                    <span class="page-number">47</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>“Mass Zone sendiri adalah konsep di mana seseorang bisa mengendalikan massa di sekitar lingkup mereka. Itu kan landasannya?” jawab Arthur.</p>
+                        <p>“Itu benar, Arthur, namun tidak sepenuhnya tepat. Aku tidak dapat memberitahumu karena itu adalah rahasia yang dijaga oleh para Ophinner. Lagipula aku pun tidak mengetahuinya,” ujar Elysa.</p>
+                        <p>Arthur yang mendengar itu tampak kesal. “Lalu kenapa kau membuatku penasaran, KEPARAT!”</p>
+                    </div>
+                    <span class="page-number">48</span>
+                </div>
+            </div>
+
+            <!-- Page 49-50 Text -->
+            <div class="page" style="z-index: 5;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Elysa menggenggam kedua tangan Arthur, seakan menaruh harapan penuh padanya. “Ingat Arthur, dahulu Arantara melakukan invasi karena mereka bisa mengambil Mass Zone milik orang lain, dan mereka berbeda dari apa yang kau kira. Karena itu para fraksi membuat organisasi bernama Ophinner.”</p>
+                        <p>Arthur yang tadinya tampak kesal mulai menyimak perkataan Elysa dengan serius.</p>
+                        <p>“Singkatnya, Ophinner adalah organisasi yang berisikan orang-orang kuat dan terlatih di antara yang paling terkuat,” lanjut Elysa. Mendengar itu, wajah Arthur langsung sumringah.</p>
+                    </div>
+                    <span class="page-number">49</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>“Kalau begitu aku bis—”</p>
+                        <p>PLAK!</p>
+                        <p>Elysa memukul pundak Arthur dengan keras.</p>
+                        <p>“Keparat! Kenapa kau malah memukul pundakku! Sakit rasanya,” gerutu Arthur dengan raut wajah kesal.</p>
+                    </div>
+                    <span class="page-number">50</span>
+                </div>
+            </div>
+
+            <!-- Page 51-52 Text -->
+            <div class="page" style="z-index: 4;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>“Kau? Hahahaha! Menggunakan Mass Zone saja masih sempoyongan, belagak mau jadi Ophinner.”</p>
+                        <p>Arthur ikut tertawa, disusul Elysa yang menarik rambut Arthur seraya tertawa lepas.</p>
+                        <p>“Kamu sudah makan?” tanya Elysa.</p>
+                        <p>“Belum,” jawab Arthur, diiringi bunyi perut keroncongan khas orang kelaparan.</p>
+                    </div>
+                    <span class="page-number">51</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Elysa mengeluarkan sebuah bola kecil dari tas selempang yang ia bawa. Bola itu diletakkan di atas tanah yang rata.</p>
+                        <p>CRACK!</p>
+                        <p>Bola itu berubah bentuk: bagian atasnya menjadi tumpukan kayu berukuran sedang, diiringi batu-batuan kecil di bagian bawah. Sebuah api unggun muncul seketika dari balik bola seukuran genggaman tangan tersebut.</p>
+                        <p>“Ini gila, aku baru tahu massa bisa dimanipulasi seluas ini,” gumam Arthur sambil tertegun.</p>
+                    </div>
+                    <span class="page-number">52</span>
+                </div>
+            </div>
+
+            <!-- Page 53-54 Text -->
+            <div class="page" style="z-index: 3;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>Elysa mengeluarkan potongan daging dengan metode yang sama persis seperti tadi, lalu memanggangnya di atas api yang hangat. Sepintas, Arthur melihat gulungan kertas yang menyembul di tas milik Elysa.</p>
+                        <p>“Itu apa?” tanya Arthur sembari mengunyah daging kelinci yang sudah matang.</p>
+                        <p>“Hanya sebuah peta,” sahut Elysa sambil menaburkan bumbu di atas daging kelinci.</p>
+                        <p>“Kebetulan sekali, aku bahkan belum tahu peta benua ini,” ucap Arthur kegirangan karena mendapat benda yang sangat ia butuhkan untuk menjelajah dunia baru ini.</p>
+                    </div>
+                    <span class="page-number">53</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>“Benar begitu? Ini, ambil saja. Aku masih punya dua di tasku.” Dengan tangan kiri, Elysa meraih gulungan kertas itu dan memberikannya kepada Arthur.</p>
+                        <p>“Terima kasih, wahai penyelamatku,” ucap Arthur dengan nada satire. Elysa hanya mengangguk singkat dan lanjut menyantap daging kelinci yang sudah masak itu.</p>
+                        <p>Arthur membuka peta tersebut.</p>
+                        <p>Gulungan itu terbentang…</p>
+                    </div>
+                    <span class="page-number">54</span>
+                </div>
+            </div>
+
+            <!-- Page 55-56 Text -->
+            <div class="page" style="z-index: 2;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <div class="illustration-box">
+                            <img src="img/ilustrasi/peta.png" alt="Peta Benua Europhia 1.1" class="illustration-img" onclick="event.stopPropagation(); openMapModal(this.src);" title="Klik untuk memperbesar peta">
+                        </div>
+                        <p class="map-caption">Peta Benua Europhia 1.1</p>
+                        <p>Pemandangan di atas perkamen itu cukup membuat Arthur terkejut melihat betapa luasnya benua ini. Ia bahkan tidak tahu harus melangkah ke arah mana. Elysa yang menyadari kebingungan Arthur pun memberikan sedikit pengetahuannya.</p>
+                        <p>“Sedikit tentang benua ini yang bisa kuberitahu,” kata Elysa.</p>
+                        <p>“Di benua ini terdapat lima wilayah yang diduduki oleh lima fraksi. Hutan Stovia, tempat yang sekarang kau pijak, adalah negeri para elf. Di arah utara ada Gurun Savara, tempat berkumpulnya para minotaur keji itu,” katanya sambil menyipitkan mata.</p>
+                    </div>
+                    <span class="page-number">55</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>“Lalu di barat ada Tebing Rousvolt, tebing curam dengan istana di atasnya yang dihuni oleh Sanctur. Makhluk aneh itu bisa menghuni tebing karena struktur kakinya yang menyerupai kambing gunung.” Elysa menunjuk sisi kanan peta, tepatnya bagian timur.</p>
+                    </div>
+                    <span class="page-number">56</span>
+                </div>
+            </div>
+
+            <!-- Page 57-58 Text -->
+            <div class="page" style="z-index: 1;">
+                <div class="page-side page-front">
+                    <div class="content">
+                        <p>“Ini adalah tempat yang harus kau kunjungi terlebih dahulu: Kerajaan Mogvia. Sudah jelas karena kalian sesama manusia. Tapi berhati-hatilah, manusia di sana sangat lihai memanipulasi orang lain. Lanjut di sisi tenggara ada gunung berapi aktif bernama Gunung Kratapa. Tak heran jika para dwarf berbondong-bondong tinggal di tepi kawah gunung berapi ini, sebab di sanalah tersimpan material amat langka yang cocok ditempa menjadi zirah kuat.”</p>
+                    </div>
+                    <span class="page-number">57</span>
+                </div>
+                <div class="page-side page-back">
+                    <div class="content">
+                        <p>Rasa kantuk perlahan menyerang Arthur. Belum sempat Elysa menyelesaikan penjelasannya tentang seluk-beluk benua ini, Arthur sudah tertidur pulas bersandar di bawah batang pohon. Melihat itu, Elysa sempat tampak kesal sebelum akhirnya mereda. Ia pun beristirahat di dalam tenda yang dibuatnya dari dedaunan sekitar menggunakan Mass Zone.</p>
+                        <p style="text-align: center; margin-top: 40px; font-weight: bold; color: #8b0000;">BERSAMBUNG...</p>
+                    </div>
+                    <span class="page-number">58</span>
                 </div>
             </div>
 
@@ -726,16 +1048,33 @@
         }
 
         function nextStep() {
-            if (currentStep < totalSteps - 1) {
-                currentStep++;
-                updateMobileView();
+            if (window.innerWidth <= 850) {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateMobileView();
+                }
+            } else {
+                const nextUnflipped = [...pages].find(p => !p.classList.contains('flipped'));
+                if (nextUnflipped) {
+                    const index = Array.from(pages).indexOf(nextUnflipped);
+                    desktopFlip(nextUnflipped, index);
+                }
             }
         }
 
         function prevStep() {
-            if (currentStep > 0) {
-                currentStep--;
-                updateMobileView();
+            if (window.innerWidth <= 850) {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateMobileView();
+                }
+            } else {
+                const flippedPages = [...pages].filter(p => p.classList.contains('flipped'));
+                if (flippedPages.length > 0) {
+                    const lastFlipped = flippedPages[flippedPages.length - 1];
+                    const index = Array.from(pages).indexOf(lastFlipped);
+                    desktopFlip(lastFlipped, index);
+                }
             }
         }
 
@@ -763,8 +1102,9 @@
         }
 
         function tutupBuku() {
+            currentStep = 0;
+            localStorage.setItem('europhia_bookmark_v3', 0);
             if (window.innerWidth <= 850) {
-                currentStep = 0;
                 updateMobileView();
             } else {
                 [...pages].reverse().forEach((page, index) => {
@@ -774,7 +1114,7 @@
                             const originalIndex = pages.length - 1 - index;
                             setTimeout(() => page.style.zIndex = pages.length - originalIndex, 500);
                         }
-                    }, index * 100);
+                    }, index * 80);
                 });
             }
         }
@@ -836,10 +1176,30 @@
             }
         }
 
+        function openMapModal(src) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            if (modal && modalImg) {
+                modalImg.src = src;
+                modal.style.display = 'flex';
+            }
+        }
+
+        function closeMapModal() {
+            const modal = document.getElementById('image-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
         window.addEventListener('resize', () => {
             if (window.innerWidth > 850) pages.forEach(p => p.classList.remove('mobile-hide'));
             else updateMobileView();
         });
     </script>
+
+    <!-- Lightbox Modal for Map -->
+    <div id="image-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box; backdrop-filter: blur(5px); cursor: zoom-out;" onclick="closeMapModal()">
+        <span style="position: absolute; top: 20px; right: 25px; color: #d4af37; font-size: 2.5rem; font-weight: bold; cursor: pointer; user-select: none;">&times;</span>
+        <img id="modal-img" src="" alt="Perbesar Peta" style="max-width: 92vw; max-height: 88vh; border-radius: 8px; border: 2px solid #d4af37; box-shadow: 0 10px 40px rgba(0,0,0,0.9); object-fit: contain;">
+    </div>
 </body>
 </html>

@@ -163,6 +163,26 @@
             left: 200%;
         }
 
+        /* Cover Preview */
+        .cover-preview {
+            margin: 10px auto 25px auto;
+            display: inline-block;
+        }
+
+        .cover-preview img {
+            width: 175px;
+            max-width: 65vw;
+            border-radius: 8px;
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(212, 175, 55, 0.25);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .cover-preview img:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px rgba(212, 175, 55, 0.45);
+        }
+
         /* Floating Decoration */
         .decor {
             position: absolute;
@@ -189,6 +209,12 @@
         <div class="decor decor-1"></div>
         <div class="decor decor-2"></div>
         
+        <div class="cover-preview">
+            <a href="book.html" title="Mulai Membaca">
+                <img src="img/cover/cover.jpg" alt="Cover EUROPHIA: Penebusan Sang Arthur">
+            </a>
+        </div>
+
         <h1>EUROPHIA:<br>Penebusan Sang Arthur</h1>
         <span class="tagline">"Jika ini benar-benar kesempatan kedua... Tuhan... aku menyesal."</span>
         
